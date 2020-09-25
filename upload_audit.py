@@ -3,7 +3,6 @@
 
 ##this script will take a .csv file containing a column of "subjects_sessions" and return a boolean column to verify if subject_session exists in the defined project.  
 
-
 import flywheel
 import pandas as pd
 import os
@@ -11,7 +10,7 @@ fw=flywheel.Client()
 
 #create a project object and read in sublist of interest
 group = 'pennftdcenter'
-project_label = 'HCPMultiCenter'
+project_label = ''
 project= fw.lookup('{}/{}'.format(group,project_label))
 audit_subs=pd.read_csv('path/to/sublist')
 
