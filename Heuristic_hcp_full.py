@@ -25,9 +25,9 @@ gamb_pa = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-
 #rest_pa = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_acq-PA_bold')
 
 #ASL
-#asl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_asl')
-#asl_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_MZeroScan')
-#asl_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_DELTAM')
+asl = create_key('sub-{subject}/{session}/perf/sub-{subject}_{session}_task-rest_asl')
+asl_mz = create_key('sub-{subject}/{session}/perf/sub-{subject}_{session}_task-rest_m0scan')
+asl_mp = create_key('sub-{subject}/{session}/perf/sub-{subject}_{session}_task-rest_deltam')
            
 #Diffusion scans
 dti_98dir_ap = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-98dir_dir-AP_dwi')
@@ -61,7 +61,7 @@ def infotodict(seqinfo):
         nback_pa: [], gamb_ap: [], gamb_pa: [], wm_ap_sbref: [], wm_pa_sbref: [],   
         gamb_ap_sbref: [], gamb_pa_sbref: [], #rest_ap: [], #rest_pa: [], 
         dti_98dir_ap: [], dti_98dir_pa: [], dti_99dir_ap:         
-        [], dti_99dir_pa: [], #asl: [], #asl_mz: [], #asl_mp: [], 
+        [], dti_99dir_pa: [], asl: [], asl_mz: [], asl_mp: [], 
         dti_98dir_ap_sbref: [], dti_98dir_pa_sbref:      
         [], dti_99dir_ap_sbref: [], dti_99dir_pa_sbref: [],
     }
@@ -101,12 +101,12 @@ def infotodict(seqinfo):
             fmap_times_pa[s.date] = s
         elif "spinechofieldmap_ap" in protocol:
             fmap_times_ap[s.date] = s
-        #elif "spiral_v20_hcp" in protocol and "M0" in s.series_description:
-        	#info[asl_mz].append(s.series_id)
-        #elif "spiral_v20_hcp" in protocol and "MeanPerf" in s.series_description:
-        	#info[asl_mp].append(s.series_id)
-        #elif "spiral_v20_hcp" in protocol:
-        	#info[asl].append(s.series_id)
+        elif s.series_description.endswith("_M0"):
+            info[asl_mz].append(s.series_id)
+        elif s.series_description.endswith("_MeanPerf"):
+            info[asl_mp].append(s.series_id)
+        elif s.series_description.endswith("_ASL"):
+            info[asl].append(s.series_id)
         elif "dMRI_dir98_AP_SBRef" in s.series_description:
             info[dti_98dir_ap_sbref].append(s.series_id)
         elif "dMRI_dir98_PA_SBRef" in s.series_description:
