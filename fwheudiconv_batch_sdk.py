@@ -11,7 +11,7 @@ import flywheel
 import os # to access input list / excel sheet
 import sys
 import pandas as pd # to read in input list / excel sheet
-fw = flywheel.Client('upenn.flywheel.io:vH2pV146EA8XeKyorV') # logging into fw
+fw = flywheel.Client() # logging into fw
 
 # group id = group name
 # fetching info container into variable
