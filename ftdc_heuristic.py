@@ -581,7 +581,7 @@ MetadataExtras = {
    fm_phasediff4: {
        "EchoTime1": 0.00492,
        "EchoTime2": 0.00738
-   }
+   },
 
    fm_phasediff5: {
        "EchoTime1": 0.00412,
