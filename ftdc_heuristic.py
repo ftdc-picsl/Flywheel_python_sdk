@@ -274,7 +274,7 @@ def infotodict(seqinfo):
     """
 
     info = {
-        locz: [], t2w_locz: [], vess_locz: [], t1w: [], t1w_ax: [], t1w_sag: [],
+        locz: [], t2w_locz: [], vess_scout: [], t1w: [], t1w_ax: [], t1w_sag: [],
         t1w_3d: [], t1w_norm: [],
         t1w_body: [], t1w_grappa: [], t1w_vnav_moco_nd: [], t1w_vnav_pass_nd: [], 
         t1w_vnav_moco: [], t1w_vnav_pass: [], t2w: [], t2w_norm: [],
@@ -313,7 +313,7 @@ def infotodict(seqinfo):
         elif 'aahead_scout' in protocol:
             info[locz].append(s.series_id)        
         elif 'vessel_scout' in protocol:
-            info[vess_locz].append(s.series_id)      
+            info[vess_scout].append(s.series_id)      
         elif "t1_3d" in protocol:
             info[t1w_3d].append(s.series_id)
         elif "t1w" in protocol and 'NORM' in s.image_type and 'vnav' not in protocol:
@@ -581,7 +581,7 @@ MetadataExtras = {
    fm_phasediff4: {
        "EchoTime1": 0.00492,
        "EchoTime2": 0.00738
-   }
+   },
 
    fm_phasediff5: {
        "EchoTime1": 0.00412,
