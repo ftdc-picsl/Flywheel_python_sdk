@@ -28,8 +28,7 @@ zip_log=[]
 file_id_log=[]
 acq_list=[]
 sess_log=[]
-#for i in range(0,len(sesslist)-1):
-for i in range(0,3):
+for i in range(0,len(sesslist)-1):
     session = fw.get(sesslist[i])
     acqs=fw.get_session_acquisitions(session.id)
     for j,a in enumerate(acqs):
