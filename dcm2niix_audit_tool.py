@@ -21,6 +21,7 @@ for i in range(0,len(sesslist)-1):
     sess=fw.lookup('{}/{}/{}/{}'.format(group,project,sesslist['subject'][i],sesslist['session'][i]))
     sesslist.append(sess.id)
 
+
 file_log=[]
 run=[]
 sub_log=[]
@@ -28,6 +29,9 @@ zip_log=[]
 file_id_log=[]
 acq_list=[]
 for i in range(0,2):
+=======
+for i in range(0,4):
+
     session = fw.get(sesslist[i])
     acqs=fw.get_session_acquisitions(session.id)
     for j,a in enumerate(acqs):
@@ -35,6 +39,8 @@ for i in range(0,2):
       types=[x.type for x in files]
       if('dicom' in types) and ('nifti' in types):
           acq_list.append(acqs[j].id)
+
+          print(acqs[j].label)
           fw.get(acqs[0]["parents"]["subject"]).label
           sub_log.append(fw.get(acqs[0]["parents"]["subject"]).label)
           file_log.append(a.files[0].name)
