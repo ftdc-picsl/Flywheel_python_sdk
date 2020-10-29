@@ -5,21 +5,19 @@ Created on Thu Oct 29 15:02:49 2020
 
 @author: seburke
 """
-
-
 import flywheel
 import pandas as pd
 
 fw=flywheel.Client()
 
 group = 'pennftdcenter'
-project = ''
+project = 'HCPMultiCenter'
 
-sesslist=pd.read_csv("path/to/csv")
+sessions=pd.read_csv("path/to/csv")
 
-
-for i in range(0,len(sesslist)-1):
-    sess=fw.lookup('{}/{}/{}/{}'.format(group,project,sesslist['subject'][i],sesslist['session'][i]))
+sesslist=[]
+for i in range(0,len(sessions)-1):
+    sess=fw.lookup('{}/{}/{}/{}'.format(group,project,sessions['subject'][i],sessions['session'][i]))
     sesslist.append(sess.id)
 
 
@@ -30,7 +28,8 @@ zip_log=[]
 file_id_log=[]
 acq_list=[]
 sess_log=[]
-for i in range(0,len(sesslist)-1):
+#for i in range(0,len(sesslist)-1):
+for i in range(0,3):
     session = fw.get(sesslist[i])
     acqs=fw.get_session_acquisitions(session.id)
     for j,a in enumerate(acqs):
@@ -38,7 +37,6 @@ for i in range(0,len(sesslist)-1):
       types=[x.type for x in files]
       if('dicom' in types) and ('nifti' in types):
           acq_list.append(acqs[j].id)
-          print(acqs[j].label)
           fw.get(acqs[0]["parents"]["subject"]).label
           sub_log.append(fw.get(acqs[0]["parents"]["subject"]).label)
           sess_log.append(fw.get(acqs[0]["parents"]["session"]).label)
@@ -48,34 +46,43 @@ for i in range(0,len(sesslist)-1):
       else:    
           run.append(a.files[0].name)
                       
-d = {'subject':sub_log,'file':file_log,'zip_size':zip_log}
-run = {'subject':sess_log,'file':file_log,'zip_size':zip_log}
+d = {'subject':sub_log,'session':sess_log,'file':file_log,'zip_size':zip_log}
+run = {'subject':sub_log, 'session':sess_log,'file':file_log,'zip_size':zip_log}
 success_log=pd.DataFrame(d)
 fail_log=pd.DataFrame(run)
 
+#########extraction of MR parameters, needs troubleshooting for empty dictionary fields.
+#ll=pd.DataFrame(scan_of_interest['files'][0]['info'].keys())
 
 PixelSpacing=[]
 SliceThickness=[]
 EchoTime=[]
 Modality=[]
 RepetitionTime=[]
-LargestImagePixelValue=[]    
+Acquisition_matrix=[]    
 ImageType=[]
 sub_list=[]
 sess_log=[]
+flip_angle=[]
 for a in range(0,len(acq_list)-1):
     scan_of_interest=fw.get(acq_list[a])
     sub_list.append(fw.get(scan_of_interest["parents"]["subject"]).label)
     sess_log.append(fw.get(scan_of_interest["parents"]["session"]).label)
-    PixelSpacing.append(scan_of_interest['files'][0]['info']['PixelSpacing'])
-    SliceThickness.append(scan_of_interest['files'][0]['info']['SliceThickness'])
     EchoTime.append(scan_of_interest['files'][0]['info']['EchoTime'])
     Modality.append(scan_of_interest['files'][0]['info']['Modality'])
     RepetitionTime.append(scan_of_interest['files'][0]['info']['RepetitionTime'])
-    LargestImagePixelValue.append(scan_of_interest['files'][0]['info']['LargestImagePixelValue'])    
+    Acquisition_matrix.append(scan_of_interest['files'][0]['info']['Rows'])
     ImageType.append(scan_of_interest['files'][0]['info']['ImageType'][0])
-    
-#xx=pd.DataFrame(scan_of_interest['files'][0]['info'].keys())
-e={'subject':sub_list,'session':sess_log,'PixelSpacing':PixelSpacing,'SliceThickness':SliceThickness,'EchoTime':EchoTime,'Modality':Modality,'RepetitionTime':RepetitionTime,'LargestImagePixelValue':LargestImagePixelValue,'ImageType':ImageType}
-
+    flip_angle.append(scan_of_interest['files'][0]['info']['FlipAngle'])  
+    if not bool(scan_of_interest['files'][0]['info']):
+        PixelSpacing.append(["NA"])
+    else:
+        PixelSpacing.append(scan_of_interest['files'][0]['info']['PixelSpacing'])
+    if not bool(scan_of_interest['files'][0]['info']):
+        SliceThickness.append("NA")
+    else:
+        SliceThickness.append(scan_of_interest['files'][0]['info']['SliceThickness'])
+        
+e={'subject':sub_list,'session':sess_log,'EchoTime':EchoTime,'Modality':Modality,'RepetitionTime':RepetitionTime,'Acquisition_matrix':Acquisition_matrix,'ImageType':ImageType,'FlipAngle':flip_angle,'SliceThickness':SliceThickness,'PixelSpacing':PixelSpacing}     
 parameter_log=pd.DataFrame(e)
+
