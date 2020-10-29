@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Oct 26 13:55:23 2020
+Created on Thu Oct 29 15:02:49 2020
 
 @author: seburke
 """
+
 
 import flywheel
 import pandas as pd
@@ -28,10 +29,8 @@ sub_log=[]
 zip_log=[]
 file_id_log=[]
 acq_list=[]
-for i in range(0,2):
-=======
-for i in range(0,4):
-
+sess_log=[]
+for i in range(0,len(sesslist)-1):
     session = fw.get(sesslist[i])
     acqs=fw.get_session_acquisitions(session.id)
     for j,a in enumerate(acqs):
@@ -39,10 +38,10 @@ for i in range(0,4):
       types=[x.type for x in files]
       if('dicom' in types) and ('nifti' in types):
           acq_list.append(acqs[j].id)
-
           print(acqs[j].label)
           fw.get(acqs[0]["parents"]["subject"]).label
           sub_log.append(fw.get(acqs[0]["parents"]["subject"]).label)
+          sess_log.append(fw.get(acqs[0]["parents"]["session"]).label)
           file_log.append(a.files[0].name)
           zip_log.append(a.files[0]["zip_member_count"])
           file_id_log.append(files[1]['_id'])
@@ -50,6 +49,7 @@ for i in range(0,4):
           run.append(a.files[0].name)
                       
 d = {'subject':sub_log,'file':file_log,'zip_size':zip_log}
+run = {'subject':sess_log,'file':file_log,'zip_size':zip_log}
 success_log=pd.DataFrame(d)
 fail_log=pd.DataFrame(run)
 
