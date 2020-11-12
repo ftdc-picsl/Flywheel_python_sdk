@@ -6,7 +6,6 @@ def create_key(template, outtype=('nii.gz',), annotation_classes=None):
 
 # anatomical images
 t1wn = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-norm_T1w')
-t2w = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T2w')
 t2wn = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-norm_T2w')
 
 
@@ -58,9 +57,7 @@ def infotodict(seqinfo):
         subindex: sub index within group"""
 
     info = {
-        t1wn: [], t2w: [], t2wn: [], fm_ap_first: [], fm_pa_first: [],
-        fm_ap_task: [], fm_pa_task: [], fm_ap_last: [], fm_pa_last: [],
-        nback_ap: [], nback_pa: [], gamb_ap: [], gamb_pa: [], wm_ap_sbref: [],
+        t1wn: [], t2wn: [], fm_ap_task: [], fm_pa_task: [], nback_pa: [], gamb_ap: [], gamb_pa: [], wm_ap_sbref: [],
         wm_pa_sbref: [], gamb_ap_sbref: [], gamb_pa_sbref: [], rest_ap: [],
         rest_pa: [], dti_98dir_ap: [], dti_98dir_pa: [], dti_99dir_ap: [],
         dti_99dir_pa: [], asl: [], asl_mz: [], asl_mp: [], dti_98dir_ap_sbref:
@@ -78,8 +75,6 @@ def infotodict(seqinfo):
             info[t1wn].append(s.series_id)
         elif "t2w" in protocol and 'NORM' in s.image_type:
             info[t2wn].append(s.series_id)
-        elif "t2w" in protocol:
-            info[t2w].append(s.series_id)
         elif "tfMRI_WM_AP_SBRef" in s.series_description:
             info[wm_ap_sbref].append(s.series_id)
             tfmri_time = s.date
