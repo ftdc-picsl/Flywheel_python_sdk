@@ -5,25 +5,17 @@ def create_key(template, outtype=('nii.gz',), annotation_classes=None):
     return template, outtype, annotation_classes
 
 # anatomical images
-t1w = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T1w')
 t1wn = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-norm_T1w')
 t2w = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T2w')
 t2wn = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-norm_T2w')
 
 
 # field maps
-fm_ap_first = create_key(
-    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-AP_epi')
-fm_pa_first = create_key(
-    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-PA_epi')
 fm_ap_task = create_key(
     'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-AP_epi')
 fm_pa_task = create_key(
     'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-PA_epi')
-fm_ap_last=create_key(
-    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-AP_epi')
-fm_pa_last=create_key(
-    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-PA_epi')
+
 
 # functional scans
 nback_ap = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-WM_dir-AP_bold')
@@ -66,10 +58,10 @@ def infotodict(seqinfo):
         subindex: sub index within group"""
 
     info = {
-        t1w: [], t1wn: [], t2w: [], t2wn: [], fm_ap_first: [], fm_pa_first: [],
+        t1wn: [], t2w: [], t2wn: [], fm_ap_first: [], fm_pa_first: [],
         fm_ap_task: [], fm_pa_task: [], fm_ap_last: [], fm_pa_last: [],
         nback_ap: [], nback_pa: [], gamb_ap: [], gamb_pa: [], wm_ap_sbref: [],
-        wm_pa_sbref: [],   gamb_ap_sbref: [], gamb_pa_sbref: [], rest_ap: [],
+        wm_pa_sbref: [], gamb_ap_sbref: [], gamb_pa_sbref: [], rest_ap: [],
         rest_pa: [], dti_98dir_ap: [], dti_98dir_pa: [], dti_99dir_ap: [],
         dti_99dir_pa: [], asl: [], asl_mz: [], asl_mp: [], dti_98dir_ap_sbref:
         [], dti_98dir_pa_sbref: [], dti_99dir_ap_sbref: [], dti_99dir_pa_sbref:
@@ -84,8 +76,6 @@ def infotodict(seqinfo):
         protocol = s.protocol_name.lower()
         if "t1w" in protocol and 'NORM' in s.image_type:
             info[t1wn].append(s.series_id)
-        elif "t1w" in protocol:
-            info[t1w].append(s.series_id)
         elif "t2w" in protocol and 'NORM' in s.image_type:
             info[t2wn].append(s.series_id)
         elif "t2w" in protocol:
@@ -113,12 +103,12 @@ def infotodict(seqinfo):
         elif "spinechofieldmap_ap" in protocol:
             fmap_times_ap[s.date] = s
 <<<<<<< HEAD
-        #elif "spiral_v20_hcp" in protocol and "M0" in s.series_description:
-        	#info[asl_mz].append(s.series_id)
-        #elif "spiral_v20_hcp" in protocol and "MeanPerf" in s.series_description:
-        	#info[asl_mp].append(s.series_id)
-        #elif "spiral_v20_hcp" in protocol:
-        	#info[asl].append(s.series_id)
+        elif "spiral_v20_hcp" in protocol and "M0" in s.series_description:
+        	info[asl_mz].append(s.series_id)
+        elif "spiral_v20_hcp" in protocol and "MeanPerf" in s.series_description:
+        	info[asl_mp].append(s.series_id)
+        elif "spiral_v20_hcp" in protocol:
+        	info[asl].append(s.series_id)
 =======
         elif s.series_description.endswith("_M0"):
             info[asl_mz].append(s.series_id)
@@ -156,39 +146,18 @@ def infotodict(seqinfo):
     ap_fmaps = []
     for k, v in fmap_times_ap.items():
         fmap_time = datetime.datetime.strptime(k, '%Y-%m-%dT%H:%M:%S.%f')
-        if fmap_time < start_time:
-            info[fm_ap_first]. append(v.series_id)
-        elif fmap_time < end_time and fmap_time > start_time:
+        if fmap_time < end_time and fmap_time > start_time:
             info[fm_ap_task]. append(v.series_id)
-        elif fmap_time > end_time:
-            info[fm_ap_last]. append(v.series_id)
-
+        
     pa_fmaps = []
     for k, v in fmap_times_pa.items():
         fmap_time = datetime.datetime.strptime(k, '%Y-%m-%dT%H:%M:%S.%f')
-        if fmap_time < start_time:
-            info[fm_pa_first]. append(v.series_id)
-        elif fmap_time < end_time and fmap_time > start_time:
+        if fmap_time < end_time and fmap_time > start_time:
             info[fm_pa_task]. append(v.series_id)
-        elif fmap_time > end_time:
-            info[fm_pa_last]. append(v.series_id)
-
 
     return info
 
     def ReplaceSession(sesname):
         return sesname[:10].replace("-", '')
 
-IntendedFor = {
 
-    fm_ap_task: ['{session}/func/{subject}_{session}_task-WM_dir-AP_bold.nii.gz',
-    '{session}/func/{subject}_{session}_task-WM_dir-PA_bold.nii.gz',
-    '{session}/func/{subject}_{session}_task-gambling_dir-AP_bold.nii.gz',
-    '{session}/func/{subject}_{session}_task-gambling_dir-PA_bold.nii.gz'],
-
-    fm_pa_task: ['{session}/func/{subject}_{session}_task-WM_dir-PA_bold.nii.gz',
-    '{session}/func/{subject}_{session}_task-WM_dir-AP_bold.nii.gz',
-    '{session}/func/{subject}_{session}_task-gambling_dir-PA_bold.nii.gz',
-    '{session}/func/{subject}_{session}_task-gambling_dir-AP_bold.nii.gz'],
-
-}
