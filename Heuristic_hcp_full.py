@@ -102,21 +102,18 @@ def infotodict(seqinfo):
             fmap_times_pa[s.date] = s
         elif "spinechofieldmap_ap" in protocol:
             fmap_times_ap[s.date] = s
-<<<<<<< HEAD
         elif "spiral_v20_hcp" in protocol and "M0" in s.series_description:
         	info[asl_mz].append(s.series_id)
         elif "spiral_v20_hcp" in protocol and "MeanPerf" in s.series_description:
         	info[asl_mp].append(s.series_id)
         elif "spiral_v20_hcp" in protocol:
         	info[asl].append(s.series_id)
-=======
         elif s.series_description.endswith("_M0"):
             info[asl_mz].append(s.series_id)
         elif s.series_description.endswith("_MeanPerf"):
             info[asl_mp].append(s.series_id)
         elif s.series_description.endswith("_ASL"):
             info[asl].append(s.series_id)
->>>>>>> refs/remotes/origin/master
         elif "dMRI_dir98_AP_SBRef" in s.series_description:
             info[dti_98dir_ap_sbref].append(s.series_id)
         elif "dMRI_dir98_PA_SBRef" in s.series_description:
@@ -148,7 +145,7 @@ def infotodict(seqinfo):
         fmap_time = datetime.datetime.strptime(k, '%Y-%m-%dT%H:%M:%S.%f')
         if fmap_time < end_time and fmap_time > start_time:
             info[fm_ap_task]. append(v.series_id)
-        
+
     pa_fmaps = []
     for k, v in fmap_times_pa.items():
         fmap_time = datetime.datetime.strptime(k, '%Y-%m-%dT%H:%M:%S.%f')
@@ -159,5 +156,3 @@ def infotodict(seqinfo):
 
     def ReplaceSession(sesname):
         return sesname[:10].replace("-", '')
-
-
