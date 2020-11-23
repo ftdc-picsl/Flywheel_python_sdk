@@ -31,6 +31,7 @@ def create_key(template, outtype=('nii.gz',), annotation_classes=None):
 # ACR_SAG_T1: 2d image, some kind of localizer?
 # ACR_AX_T1: 2d image, some kind of localizer?
 # MPRAGE_NAVprotocol: these seem to just be the navigator images, not the T1s
+# DWI: only 3 directional images plus one B0, not usable for white matter imaging
 
 # Localizers
 # 'localizer','Localizer'
@@ -50,10 +51,14 @@ vess_scout = create_key('sub-{subject}/{session}/localizer/sub-{subject}_{sessio
 # 't1_se_sag'
 # MPRAGE_sag_moco3: this is actually a vNav sequence
 # MPRAGE: a 3D T1 acquisition with 1.2 mm sagittal slices and 1.0 x 1.0 y-z in-plane resolution
+# 3DT1
+# t1_mpr_AX_MPRAGE
+# 3DT1
 t1w = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T1w')
 t1w_ax = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T1w')
 t1w_sag = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_T1w')
 t1w_3d = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_T1w')
+t1w_3d_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_rec-ND_T1w')
 t1w_norm = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-norm_T1w')
 t1w_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_rec-gradwarp_T1w')
 t1w_body = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_coil-body_T1w')
@@ -69,7 +74,7 @@ t1w_vnav_pass = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}
 #'HighResHippocampus'
 #'t2_tse_CORONAL_HIPPO'
 #'t2_tse_tra8CHANNEL'
-#
+# t2_tse_cor8channel t2_tse_COR8CHANNEL_5.nii.gz
 # 'T2_2D_0.4x0.4x1.2mm_180flip_aa_temp': t2w_hippo
 # 'T2_2D_0.4x0.4x1.2mm_180flip_aa_temp_(SECTRA)': t2w_hippo
 # 'T2_2D_0.4x0.4x1.2mm_180flip_aa_temp_repeat': t2w_hippo
@@ -102,6 +107,7 @@ t2w_vnav_pass = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}
 # T2 star:
 # AXT2_STAR_ACPC_ANGLE
 # T2_STAR
+# t2 T2_5.nii.gz: the "T2" protocol is actually "T2*", but the asterisk gets stripped
 t2star = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T2star')
 t2star_acpc = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-acpc_T2star')
 
@@ -113,6 +119,9 @@ t2star_acpc = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_a
 # FLAIR_3D_1x1x1
 # T2_FLAIR_AXIAL
 # T2-FLAIR_ACPC_ANGLE
+# flair FLAIR_4.nii.gz
+# flair FLAIR_5.nii.gz
+
 flair_3d = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_FLAIR')
 flair_3d_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_rec-gradwarp_FLAIR')
 flair_ax = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-axial_FLAIR')
@@ -126,11 +135,12 @@ swi_combo = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_swi'
 swi_minip = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_minIP')
 
 # Proton density
-'pd_tse_tra'
+#'pd_tse_tra'
 pd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_PD')
 
 # Combined proton density/T2 scan
-'Axial_PD-T2_TSE'
+#'Axial_PD-T2_TSE'
+# pdt2 PDT2_6_e1.nii.gz
 pdt2 = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_PDT2')
 
 # Angiography
@@ -147,6 +157,10 @@ tof = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_angio')
 # 'fieldmap_GRE'
 # 'SpinEchoFieldMap_PA'
 # 'ABCD_dMRI_DistortionMap_AP'
+# field_map field_map_10_ph.nii.gz
+# field_map field_map_9_e0.nii.gz
+# field_map field_map_9_e1.nii.gz
+
 fm_phasediff1 = create_key(
     'sub-{subject}/{session}/fmap/sub-{subject}_{session}_phasediff')
 fm_mag1 = create_key(
@@ -166,6 +180,10 @@ fm_mag4 = create_key(
 fm_phasediff5 = create_key(
     'sub-{subject}/{session}/fmap/sub-{subject}_{session}_phasediff')
 fm_mag5 = create_key(
+    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_magnitude{item}')
+fm_phasediff6 = create_key(
+    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_phasediff')
+fm_mag6 = create_key(
     'sub-{subject}/{session}/fmap/sub-{subject}_{session}_magnitude{item}')
 fm_ap1 = create_key(
     'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-AP_epi')
@@ -197,6 +215,14 @@ fm_gre = create_key(
 # 'ep2d_max_pace_45'
 # 'ep2d_max_pace_45_MoCo'
 # 'ep2d_max_pace_MoCo'
+# ep2d_pace_max_1 ep2d_pace_max_1_3.nii.gz
+# ep2d_pace_max_1_moco ep2d_pace_max_1_MoCo_4.nii.gz
+# ep2d_pace_max_165 ep2d_pace_max_165_5.nii.gz
+# ep2d_pace_max_165_moco ep2d_pace_max_165_MoCo_6.nii.gz
+# ep2d_pace_max_205 ep2d_pace_max_205_7.nii.gz
+# ep2d_pace_max_205_moco ep2d_pace_max_205_MoCo_8.nii.gz
+# fmri fMRI_12.nii.gz
+# fmri fMRI_13.nii.gz
 rest_bold = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_bold')
 rest_ap = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-AP_bold')
 rest_pa = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-PA_bold')
@@ -233,6 +259,7 @@ pace_moco = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_tas
 # DTI_P-A_BW2394, dti_30dir_pa
 # DTI_A-P_BW2394, dti_30dir_ap
 # DTI_34_DIR
+# DTI_12dir
 dti_12dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-12dir_dwi')
 dti_30dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_dwi')
 dti_30dir_ap = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_dir-AP_dwi')
@@ -288,6 +315,11 @@ noddi_b300 =  create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_ac
 # 'ep2d_fairest_UI_M0_MoCo'
 # asl_3dspiral_4shot_2.5mm_1daccel_v20 ASL_3DSpiral_4shot_2.5mm_1Daccel_V20_30.nii.gz
 # asl_3dspiral_4shot_2.5mm_1daccel_v20 ASL_3DSpiral_4shot_2.5mm_1Daccel_V20_9.nii.gz
+# ep2d_casl_1500ms ep2d_casl_1500ms_6.nii.gz
+# ep2d_casl_1500ms ep2d_casl_1500ms_8.nii.gz
+# ep2d_casl_1500ms_moco ep2d_casl_1500ms_MoCo_7.nii.gz
+# ep2d_casl_am_ui_1500ms ep2d_casl_AM_UI_1500ms_3.nii.gz
+# ep2d_casl_am_ui_1500ms_moco ep2d_casl_AM_UI_1500ms_MoCo_4.nii.gz
 asl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_asl')
 asl_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_m0scan')
 asl_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_cbf')
@@ -317,7 +349,7 @@ def infotodict(seqinfo):
 
     info = {
         locz: [], t2w_locz: [], vess_scout: [], t1w: [], t1w_ax: [], t1w_sag: [],
-        t1w_3d: [], t1w_norm: [], t1w_gradwarp: [],
+        t1w_3d: [], t1w_3d_nd: [], t1w_norm: [], t1w_gradwarp: [],
         t1w_body: [], t1w_grappa: [], t1w_vnav_moco_nd: [], t1w_vnav_pass_nd: [], 
         t1w_vnav_moco: [], t1w_vnav_pass: [],
         t2w: [], t2w_norm: [], t2w_gradwarp: [], t2w_gradwarp_phase: [],
@@ -330,7 +362,7 @@ def infotodict(seqinfo):
         pd: [], pdt2: [], tof: [],
         fm_phasediff1: [], fm_mag1: [], fm_phasediff2: [], fm_mag2: [],
         fm_phasediff3: [], fm_mag3: [], fm_phasediff4: [], fm_mag4: [], 
-        fm_phasediff5: [], fm_mag5: [],
+        fm_phasediff5: [], fm_mag5: [], fm_phasediff6: [], fm_mag6: [],
         fm_ap1: [], fm_pa1: [], fm_gre: [],
         dwi_distmap_ap: [], dwi_distmap_pa: [],
         rest_bold: [], rest_ap: [], rest_pa: [], rest_ap_sbref: [],
@@ -388,6 +420,10 @@ def infotodict(seqinfo):
             info[vess_scout].append(s.series_id)      
         elif "t1_3d" in protocol:
             info[t1w_3d].append(s.series_id)
+        elif s.series_description == '3DT1_ND':
+            info[t1w_3d_nd].append(s.series_id)
+        elif protocol == '3dt1':
+            info[t1w_3d].append(s.series_id)
         elif protocol == 'mprage' and s.series_description == "MPRAGE":
             info[t1w_3d].append(s.series_id)
         elif "t1w" in protocol and 'NORM' in s.image_type and 'vnav' not in protocol:
@@ -424,6 +460,8 @@ def infotodict(seqinfo):
             info[t1w_vnav_pass_nd].append(s.series_id)
         elif "T1w_MPR_vNav_passive_RMS" in s.series_description:
             info[t1w_vnav_pass].append(s.series_id)
+        elif "t2_tse_cor8channel" in protocol:
+            info[t2w_hippo].append(s.series_id)
         elif "t2_tse_obl_448_2mm" in protocol:
             info[t2w_hippo].append(s.series_id)
         elif "highreshippocampus" in protocol:
@@ -464,6 +502,8 @@ def infotodict(seqinfo):
             info[t2star_acpc].append(s.series_id)
         elif "t2_star" in protocol:
             info[t2star].append(s.series_id)
+        elif protocol == "t2":
+            info[t2star].append(s.series_id)
         elif "flair_3d" in protocol and 'DIS3D' in s.image_type:
             info[flair_3d_gradwarp].append(s.series_id)
         elif "flair_3d" in protocol:
@@ -471,6 +511,10 @@ def infotodict(seqinfo):
         elif "flair_axial" in protocol and ("DIS2D" in s.image_type or "DIS3D" in s.image_type):
             info[flair_ax_gradwarp].append(s.series_id)
         elif "flair_axial" in protocol:
+            info[flair_ax].append(s.series_id)
+        elif protocol == 'flair' and ("DIS2D" in s.image_type or "DIS3D" in s.image_type):
+            info[flair_ax_gradwarp].append(s.series_id)
+        elif protocol == 'flair':
             info[flair_ax].append(s.series_id)
         elif "flair_acpc_angle" in protocol and ("DIS2D" in s.image_type or "DIS3D" in s.image_type):
             info[flair_ax_gradwarp].append(s.series_id)
@@ -495,6 +539,8 @@ def infotodict(seqinfo):
         elif "pd_tse_tra" in protocol:
             info[pd].append(s.series_id)
         elif "axial_pd-t2_tse" in protocol:
+            info[pdt2].append(s.series_id)
+        elif protocol == "pdt2":
             info[pdt2].append(s.series_id)
         elif "tof" in protocol:
             info[tof].append(s.series_id)
@@ -522,6 +568,14 @@ def infotodict(seqinfo):
             info[casl_moco].append(s.series_id)
         elif "ep2d_casl_ui_1500ms" in protocol:
             info[casl].append(s.series_id)
+        elif "ep2d_casl_am_ui_1500ms" in protocol and s.series_description == 'MoCoSeries':
+            info[casl_moco].append(s.series_id)
+        elif "ep2d_casl_am_ui_1500ms" in protocol:
+            info[casl].append(s.series_id)
+        elif "ep2d_casl_1500ms" in protocol and s.series_description == 'MoCoSeries':
+            info[casl_moco].append(s.series_id)
+        elif "ep2d_casl_1500ms" in protocol:
+            info[casl].append(s.series_id)
         elif "spiral_v20_hcp" in protocol and "M0" in s.series_description:
             info[asl_mz].append(s.series_id)
         elif "spiral_v20_hcp" in protocol and "MeanPerf" in s.series_description:
@@ -543,6 +597,8 @@ def infotodict(seqinfo):
         elif "ep2d_fairest_ui_m0" in protocol:
             info[fairest_mz].append(s.series_id)
         elif 'ep2d_diff_mddw_12' in protocol:
+            info[dti_12dir].append(s.series_id)
+        elif 'dti_12dir' in protocol:
             info[dti_12dir].append(s.series_id)
         elif len(dwi_times) == 1 and 'dti_30dir' in protocol:
             info[dti_30dir].append(s.series_id)
@@ -660,6 +716,10 @@ def infotodict(seqinfo):
             info[fm_phasediff5].append(s.series_id)
         elif "b0map" in protocol and "M" in s.image_type:
             info[fm_mag5].append(s.series_id)
+        elif protocol == 'field_map' and "P" in s.image_type:
+            info[fm_phasediff6].append(s.series_id)
+        elif protocol == 'field_map' and "M" in s.image_type:
+            info[fm_mag6].append(s.series_id)
         elif "abcd_dmri_distortionmap_ap" in protocol:
             info[dwi_distmap_ap].append(s.series_id)
         elif "abcd_dmri_distortionmap_pa" in protocol:
@@ -694,9 +754,15 @@ def infotodict(seqinfo):
             info[rest_bold].append(s.series_id)
         elif "ep2d_bold_restingze6min" in protocol:
             info[rest_bold].append(s.series_id)
-        elif "ep2d_max_pace" in protocol and "moco" in protocol:
+        elif protocol == "fmri":
+            info[rest_bold].append(s.series_id)
+        elif "ep2d_max_pace" in protocol and "moco" in s.series_description:
             info[pace_moco].append(s.series_id)
         elif "ep2d_max_pace" in protocol:
+            info[pace].append(s.series_id)
+        elif "ep2d_pace_max" in protocol and "moco" in s.series_description:
+            info[pace_moco].append(s.series_id)
+        elif "ep2d_pace_max" in protocol:
             info[pace].append(s.series_id)
         else:
             print("Series not recognized!: ", protocol, s.dcm_dir_name)
@@ -734,6 +800,11 @@ MetadataExtras = {
    fm_phasediff5: {
        "EchoTime1": 0.00412,
        "EchoTime2": 0.00658
+   },
+
+   fm_phasediff6: {
+       "EchoTime1": 0.00519,
+       "EchoTime2": 0.00765
    }
 
 }       
@@ -755,6 +826,9 @@ IntendedFor = {
 
     fm_phasediff5: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
     fm_mag5: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
+
+    fm_phasediff6: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
+    fm_mag6: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
 
     fm_ap1: [ '{session}/func/{subject}_{session}_task-rest_dir-AP_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_dir-PA_bold.nii.gz',
