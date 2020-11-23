@@ -97,10 +97,10 @@ def find_modality_files(projectPath, modality):
     df.index = range(df.shape[0])
     return(df)
 
-def run_dcm2niix(projectPath, subjectLabel, sessionLabel):
+def run_dcm2niix(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter'):
     fw = flywheel.Client()
     g = fw.lookup('gears/dcm2niix')
-    s = fw.lookup('/'.join([projectPath,str(subjectLabel),str(sessionLabel)]))
+    s = fw.lookup('/'.join([group,projectLabel,str(subjectLabel),str(sessionLabel)]))
     config = {
         'bids_sidecar': 'y'
         }
@@ -124,7 +124,7 @@ def run_dcm2niix(projectPath, subjectLabel, sessionLabel):
     
     return results
 
-def run_fmriprep(projectPath, subjectLabel, sessionLabel, ignore = ''):
+def run_fmriprep(projectPath, subjectLabel, sessionLabel, ignore = '', t1_file = None):
     projectPath = 'pennftdcenter/HUP3TLegacy'
     proj = fw.lookup(projectPath)
     fmriprep = fw.lookup('gears/fmriprep-fwheudiconv')
@@ -139,11 +139,12 @@ def run_fmriprep(projectPath, subjectLabel, sessionLabel, ignore = ''):
         str(sessionLabel), fmriprep.gear.name, fmriprep.gear.version, now)
     
     # Find the T1 file.
-    is_t1 = [any(['T1' in f.classification['Measurement'] for f in a.files \
-        if 'Measurement' in f.classification.keys()]) for a in sess.acquisitions()]
-    t1_acq = [a for (a, v) in zip(sess.acquisitions(), is_t1) if v]
-    t1_acq = t1_acq.pop()
-    t1_file = [f for f in t1_acq.files if ('info' in f.keys() and 'BIDS' in f.info.keys())].pop()
+    if t1_file is None:
+        is_t1 = [any(['T1' in f.classification['Measurement'] for f in a.files \
+            if 'Measurement' in f.classification.keys()]) for a in sess.acquisitions()]
+        t1_acq = [a for (a, v) in zip(sess.acquisitions(), is_t1) if v]
+        t1_acq = t1_acq.pop()
+        t1_file = [f for f in t1_acq.files if ('info' in f.keys() and 'BIDS' in f.info.keys())].pop()
     
     # If there's more than one T1w image, do what?
     inputs = {
