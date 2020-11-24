@@ -846,10 +846,20 @@ IntendedFor = {
 #    fm_pa1: [ '{session}/func/{subject}_{session}_task-rest_dir-PA_bold.nii.gz',
 #        '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
 
-    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz'],
-#    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz',
-#        '{session}/func/{subject}_{session}_task-rest_acq-pace_run-{item}_bold.nii.gz',
-#        '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-{item}_bold.nii.gz' ],
+#    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz'],
+    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_run-1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_run-2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_run-3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_run-4_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-4_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_run-5_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-5_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_run-6_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-6_bold.nii.gz'],
 
     # EPI distortion map for correcting eddy currents along phase-encoding
     # direction in ABCD diffusion protocol. Don't think a P->A map was ever
