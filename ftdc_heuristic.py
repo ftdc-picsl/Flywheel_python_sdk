@@ -23,10 +23,7 @@ def create_key(template, outtype=('nii.gz',), annotation_classes=None):
 # 'GRE_3D_segEPI_2.5x2.5x2.5'
 # 'ABCD_T1w_MPR_vNav_passive_(SECTRA)'
 # 'T2w_SPC_vNav_passive'
-# 'T2w_SPC_vNav_passive_(SECTRA)'
 #'ABCD_T1w_MPR_vNav_setter'
-#'ABCD_T1w_MPR_vNav_moco'
-#'ABCD_T1w_MPR_vNav_passive'
 # 'MDDW_DTI_AXIAL_30_DIRECTION'
 # ACR_SAG_T1: 2d image, some kind of localizer?
 # ACR_AX_T1: 2d image, some kind of localizer?
@@ -460,6 +457,10 @@ def infotodict(seqinfo):
             info[t1w_vnav_pass_nd].append(s.series_id)
         elif "T1w_MPR_vNav_passive_RMS" in s.series_description:
             info[t1w_vnav_pass].append(s.series_id)
+        elif "T1w_MPR_vNav_passive_(sectra)_ND_RMS" in s.series_description:
+            info[t1w_vnav_pass_nd].append(s.series_id)
+        elif "T1w_MPR_vNav_passive_(sectra)_RMS" in s.series_description:
+            info[t1w_vnav_pass].append(s.series_id)
         elif "t2_tse_cor8channel" in protocol:
             info[t2w_hippo].append(s.series_id)
         elif "t2_tse_obl_448_2mm" in protocol:
@@ -490,6 +491,11 @@ def infotodict(seqinfo):
             info[t2w_vnav_pass_nd].append(s.series_id)
         elif "T2w_SPC_vNav_passive" in s.series_description:
             info[t2w_vnav_pass].append(s.series_id)
+        elif "T2w_SPC_vNav_passive" in s.series_description and "_ND" in s.series_description:
+            info[t2w_vnav_pass_nd].append(s.series_id)
+        elif "T2w_SPC_vNav_passive" in s.series_description:
+            info[t2w_vnav_pass].append(s.series_id)
+
         elif "t2_tse_axial" in protocol and "DIS2D" in s.image_type:
             info[t2w_tse_gradwarp].append(s.series_id)
         elif "axial_t2_acpc_angle" in protocol and "DIS2D" in s.image_type and "M" in s.image_type:
