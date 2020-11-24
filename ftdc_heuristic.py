@@ -91,6 +91,7 @@ t2w_tse_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{sessi
 t2w_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-gradwarp_T2w')
 t2w_gradwarp_phase = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_part-phase_rec-gradwarp_T2w')
 t2w_hippo = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-hippo_T2w')
+t2w_hippo_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-hippo_rec-ND_T2w')
 t2w_space = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-space_T2w')
 t2w_sag = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_T2w')
 # Kinda making this up, but t2w_gap will include the t2_nex_1 and t2_tse_tra
@@ -350,8 +351,8 @@ def infotodict(seqinfo):
         t1w_body: [], t1w_grappa: [], t1w_vnav_moco_nd: [], t1w_vnav_pass_nd: [], 
         t1w_vnav_moco: [], t1w_vnav_pass: [],
         t2w: [], t2w_norm: [], t2w_gradwarp: [], t2w_gradwarp_phase: [],
-        t2w_tse_gradwarp: [], t2w_hippo: [], t2w_space: [], t2w_sag: [], 
-        t2w_gap: [], t2w_vnav_pass_nd: [], t2w_vnav_pass: [],
+        t2w_tse_gradwarp: [], t2w_hippo: [], t2w_hippo_nd: [], t2w_space: [],
+        t2w_sag: [], t2w_gap: [], t2w_vnav_pass_nd: [], t2w_vnav_pass: [],
         t2star: [], t2star_acpc: [],
         flair_3d: [], flair_3d_gradwarp: [], flair_ax: [], flair_ax_gradwarp: [],
         flair_sag: [], 
@@ -473,6 +474,8 @@ def infotodict(seqinfo):
             info[t2w_hippo].append(s.series_id)
         elif "t2_tse_tra8channel" in protocol:
             info[t2w_locz].append(s.series_id)
+        elif "t2_2d_0.4x0.4x1.2mm_180flip" in protocol and "ND" in s.series_description:
+            info[t2w_hippo_nd].append(s.series_id)
         elif "t2_2d_0.4x0.4x1.2mm_180flip" in protocol:
             info[t2w_hippo].append(s.series_id)
         elif "t2w" in protocol and 'NORM' in s.image_type and 'vnav' not in protocol:
