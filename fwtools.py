@@ -124,13 +124,13 @@ def run_dcm2niix(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcente
     
     return results
 
-def run_fmriprep(projectPath, subjectLabel, sessionLabel, ignore = '', t1_file = None):
-    projectPath = 'pennftdcenter/HUP3TLegacy'
+def run_fmriprep(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', ignore = '', t1_file = None):
+    projectPath = '{}/{}'.format(group, projectLabel)
     proj = fw.lookup(projectPath)
     fmriprep = fw.lookup('gears/fmriprep-fwheudiconv')
     
     # Destination session.
-    sess = fw.lookup(projectPath + '/' + str(subjectLabel) + '/' + str(sessionLabel))
+    sess = fw.lookup('/'.join([group,projectLabel,str(subjectLabel),str(sessionLabel)]))
     
     # Get the index of the FreeSurfer license file among the project files.
     findex = [(i,f.name) for i,f in enumerate(proj.files) if 'license.txt' in f.name][0][0]
@@ -207,8 +207,8 @@ def run_fmriprep(projectPath, subjectLabel, sessionLabel, ignore = '', t1_file =
     
     return result
 
-def run_xcp(projectPath, subjectLabel, sessionLabel, designFile = 'fc-36p_despike.dsn'):
-    projectPath = 'pennftdcenter/HUP3TLegacy'
+def run_xcp(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', designFile = 'fc-36p_despike.dsn'):
+    projectPath = '{}/{}'.format(group, projectLabel)
     proj = fw.lookup(projectPath)
     
     # xcpEngine design file: configures the moduules to be run.
@@ -216,7 +216,7 @@ def run_xcp(projectPath, subjectLabel, sessionLabel, designFile = 'fc-36p_despik
     dsn = proj.get_file(dsn.name)
     
     # Destination session.
-    sess = fw.lookup(projectPath + '/' + str(subjectLabel) + '/' + str(sessionLabel))
+    sess = fw.lookup('/'.join([group,projectLabel,str(subjectLabel),str(sessionLabel)]))
     
     # Get the latest fmriprep path.
     fmriprep = get_latest_fmriprep(sess)
