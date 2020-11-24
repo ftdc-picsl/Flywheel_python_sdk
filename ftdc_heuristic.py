@@ -770,10 +770,10 @@ def infotodict(seqinfo):
     return info
     
 def ReplaceSession(sesname):
-    return sesname[:13].replace("-", '')
+    return sesname[:13].replace("-", "").replace(".","").replace("_","")
 
 def ReplaceSubject(subjname):
-    return subjname[:10].replace("-", '')
+    return subjname[:10].replace("-", "").replace(".","").replace("_","")
 
 MetadataExtras = {
 
@@ -846,9 +846,10 @@ IntendedFor = {
 #    fm_pa1: [ '{session}/func/{subject}_{session}_task-rest_dir-PA_bold.nii.gz',
 #        '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
 
-    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz',
-        '{session}/func/{subject}_{session}_task-rest_acq-pace_run-{item}_bold.nii.gz',
-        '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-{item}_bold.nii.gz' ],
+    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz'],
+#    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz',
+#        '{session}/func/{subject}_{session}_task-rest_acq-pace_run-{item}_bold.nii.gz',
+#        '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-{item}_bold.nii.gz' ],
 
     # EPI distortion map for correcting eddy currents along phase-encoding
     # direction in ABCD diffusion protocol. Don't think a P->A map was ever
