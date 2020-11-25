@@ -325,3 +325,9 @@ def get_zip_member(project, subject, session, regexp_anz, regexp_member, outPath
     else:
         return(None)
 
+def fix_job_id(id):
+    if type(id) is str:
+        return(id[:(len(id)-1)] + chr(ord(str(id[-1]))+1))
+    else:
+        return(None)
+

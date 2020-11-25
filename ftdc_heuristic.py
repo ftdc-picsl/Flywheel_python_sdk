@@ -329,6 +329,7 @@ pcasl_3d_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_ac
 pasl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-pasl_asl')
 pasl_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-pasl_cbf')
 casl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-casl_asl')
+casl_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-casl_m0scan')
 casl_moco = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-casl_rec-moco_asl')
 fairest = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_asl')
 fairest_moco = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_rec-moco_asl')
@@ -373,8 +374,8 @@ def infotodict(seqinfo):
         dti_colfa: [], dti_exp: [], noddi_b2000: [], noddi_b700: [], noddi_b300: [],
         asl: [], asl_mz: [], asl_mp: [], asl_moco: [], 
         pcasl_3d: [], pcasl_3d_mz: [], pcasl_3d_mp: [],
-        pasl: [], pasl_mp: [],
-        casl: [], casl_moco: [], fairest: [], fairest_moco: [], fairest_mz: [],
+        pasl: [], pasl_mp: [], casl: [], casl_mz: [], casl_moco: [], 
+        fairest: [], fairest_moco: [], fairest_mz: [],
         fairest_moco_mz: []
     }
 
@@ -583,6 +584,8 @@ def infotodict(seqinfo):
             info[casl].append(s.series_id)
         elif "ep2d_casl_1500ms" in protocol and s.series_description == 'MoCoSeries':
             info[casl_moco].append(s.series_id)
+        elif "ep2d_casl_1500ms" in protocol and not "MOSAIC" in s.image_type:
+            info[casl_mz].append(s.series_id)
         elif "ep2d_casl_1500ms" in protocol:
             info[casl].append(s.series_id)
         elif "spiral_v20_hcp" in protocol and "M0" in s.series_description:
