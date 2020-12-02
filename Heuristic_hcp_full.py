@@ -15,7 +15,6 @@ fm_ap_task = create_key(
 fm_pa_task = create_key(
     'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-PA_epi')
 
-
 # functional scans
 nback_ap = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-WM_dir-AP_bold')
 nback_pa = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-WM_dir-PA_bold')
@@ -57,7 +56,7 @@ def infotodict(seqinfo):
         subindex: sub index within group"""
 
     info = {
-        t1wn: [], t2wn: [], fm_ap_task: [], fm_pa_task: [], nback_pa: [], gamb_ap: [], gamb_pa: [], wm_ap_sbref: [],
+        t1wn: [], t2wn: [], fm_ap_task: [], fm_pa_task: [], nback_ap: [], nback_pa: [], gamb_ap: [], gamb_pa: [], wm_ap_sbref: [],
         wm_pa_sbref: [], gamb_ap_sbref: [], gamb_pa_sbref: [], rest_ap: [],
         rest_pa: [], dti_98dir_ap: [], dti_98dir_pa: [], dti_99dir_ap: [],
         dti_99dir_pa: [], asl: [], asl_mz: [], asl_mp: [], dti_98dir_ap_sbref:
