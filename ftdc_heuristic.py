@@ -282,10 +282,11 @@ dti_62dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-
 dti_trace = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-trace_dwi')
 dwi_abcd = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-96dir_dwi')
 dwi_117dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-117dir_dwi')
-dwi_distmap_ap = create_key(
-    'sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-dwi_dir-AP_epi')
-dwi_distmap_pa = create_key(
-    'sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-dwi_dir-PA_epi')
+# Leave ABCD DWI distortion maps as non-BIDS.
+#dwi_distmap_ap = create_key(
+#    'sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-dwi_dir-AP_epi')
+#dwi_distmap_pa = create_key(
+#    'sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-dwi_dir-PA_epi')
 dti_adc = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-adc_dwi')
 dti_fa = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-fa_dwi')
 dti_colfa = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-colfa_dwi')
@@ -363,7 +364,6 @@ def infotodict(seqinfo):
         fm_phasediff3: [], fm_mag3: [], fm_phasediff4: [], fm_mag4: [], 
         fm_phasediff5: [], fm_mag5: [], fm_phasediff6: [], fm_mag6: [],
         fm_ap1: [], fm_pa1: [], fm_gre: [],
-        dwi_distmap_ap: [], dwi_distmap_pa: [],
         rest_bold: [], rest_ap: [], rest_pa: [], rest_ap_sbref: [],
         rest_pa_sbref: [], pace: [], pace_moco: [],
         dti_12dir: [], dti_30dir: [], dti_30dir_ap: [], dti_30dir_pa: [],
@@ -732,10 +732,6 @@ def infotodict(seqinfo):
             info[fm_phasediff6].append(s.series_id)
         elif protocol == 'field_map' and "M" in s.image_type:
             info[fm_mag6].append(s.series_id)
-        elif "abcd_dmri_distortionmap_ap" in protocol:
-            info[dwi_distmap_ap].append(s.series_id)
-        elif "abcd_dmri_distortionmap_pa" in protocol:
-            info[dwi_distmap_pa].append(s.series_id)
         elif "resting_bold_124" in protocol:
             info[rest_bold].append(s.series_id)
         elif "long_rsfmri_p-a" in protocol and 'sbref' in s.series_description.lower():
@@ -876,8 +872,10 @@ IntendedFor = {
     # EPI distortion map for correcting eddy currents along phase-encoding
     # direction in ABCD diffusion protocol. Don't think a P->A map was ever
     # collected.
-    dwi_distmap_ap: [ '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
-    dwi_distmap_pa: [ '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
+    # Edit, JSP, 12/07/2020: the BIDS validator doesn't like this distortion map, so make
+    # it a non-BIDS file.
+    # dwi_distmap_ap: [ '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
+    # dwi_distmap_pa: [ '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
 
 }
 
