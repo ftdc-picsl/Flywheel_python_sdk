@@ -32,7 +32,7 @@ def rename_sessions(metadata, project):
         sess = fw.lookup(md.sesspath[i])
         sess.update(label = md.new_label[i])
 
-def get_latest_fmriprep(session):
+def get_latest_fmriprep(session, stateType = ['complete'], outputType = 'analysis'):
     '''
     Finds the latest available successful fmriprep job in a session.
     Written by Azeez Adebimpe.
@@ -50,14 +50,18 @@ def get_latest_fmriprep(session):
             gear_name = i.gear_info['name']
             state = i.job.state
             date = i.created
-            if 'fmriprep' in gear_name and date > latest_date and state =='complete':
+            if 'fmriprep' in gear_name and date > latest_date and state in stateType:
                 latest_date = date
                 latest_run = i
         
         if latest_run is not None:
-            fmriprep_out = [x for x in latest_run.files if 'fmriprep' in x.name][1]
-            fmriprep_out
-            return(fmriprep_out)
+            if outputType == 'analysis':
+                return(latest_run)
+            elif outputType == 'job':
+                return(latest_run.job)
+            elif outputType == 'file':
+                fmriprep_out = [x for x in latest_run.files if 'fmriprep' in x.name][1]
+                return(fmriprep_out)
         else:
             return None
         
@@ -324,6 +328,7 @@ def get_zip_member(project, subject, session, regexp_anz, regexp_member, outPath
         return(results)
     else:
         return(None)
+
 
 def fix_job_id(id):
     if type(id) is str:
