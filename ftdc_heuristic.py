@@ -258,6 +258,10 @@ pace_moco = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_tas
 # DTI_A-P_BW2394, dti_30dir_ap
 # DTI_34_DIR
 # DTI_12dir
+#        elif "abcd_dmri_distortionmap_ap" in protocol:
+#            info[dwi_distmap_ap].append(s.series_id)
+#        elif "abcd_dmri_distortionmap_pa" in protocol:
+#            info[dwi_distmap_pa].append(s.series_id)
 dti_12dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-12dir_dwi')
 dti_30dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_dwi')
 dti_30dir_ap = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_dir-AP_dwi')
@@ -499,7 +503,6 @@ def infotodict(seqinfo):
             info[t2w_vnav_pass_nd].append(s.series_id)
         elif "T2w_SPC_vNav_passive" in s.series_description:
             info[t2w_vnav_pass].append(s.series_id)
-
         elif "t2_tse_axial" in protocol and "DIS2D" in s.image_type:
             info[t2w_tse_gradwarp].append(s.series_id)
         elif "axial_t2_acpc_angle" in protocol and "DIS2D" in s.image_type and "M" in s.image_type:
