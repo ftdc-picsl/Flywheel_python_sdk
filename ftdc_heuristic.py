@@ -11,6 +11,7 @@
 
 import datetime
 import numpy as np
+import pandas
 
 def create_key(template, outtype=('nii.gz',), annotation_classes=None):
     if template is None or not template:
@@ -266,24 +267,23 @@ dti_12dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-
 dti_30dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_dwi')
 dti_30dir_ap = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_dir-AP_dwi')
 dti_30dir_pa = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_dir-PA_dwi')
-dti_30dir_multirun = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-{item}_dwi')
-dti_30dir_multirun_bval = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-{item}_dwi')
-dti_30dir_multirun_bvec = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-{item}_dwi')
-dti_32dir_multirun = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-32dir_run-{item}_dwi')
-dti_32dir_multirun_bval = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-32dir_run-{item}_dwi')
-dti_32dir_multirun_bvec = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-32dir_run-{item}_dwi')
+dti_30dir_run1 = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-1_dwi')
+dti_30dir_run2 = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-2_dwi')
+dti_30dir_run3 = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-3_dwi')
+dti_32dir_run1 = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-32dir_run-1_dwi')
+dti_32dir_run2 = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-32dir_run-2_dwi')
+dti_32dir_run3 = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-32dir_run-3_dwi')
 dti_34dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_dwi')
-dti_34dir_multirun = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_run-{item}_dwi')
-dti_34dir_multirun_bval = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_run-{item}_dwi')
-dti_34dir_multirun_bvec = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_run-{item}_dwi')
+dti_34dir_run1 = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_run-1_dwi')
+dti_34dir_run2 = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_run-2_dwi')
+dti_34dir_run3 = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_run-3_dwi')
 dti_34dir_moco = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_rec-moco_dwi')
-dti_34dir_multirun_moco = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_rec-moco_run-{item}_dwi')
-dti_34dir_multirun_moco_bval = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_rec-moco_run-{item}_dwi')
-dti_34dir_multirun_moco_bvec = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_rec-moco_run-{item}_dwi')
+dti_34dir_run1_moco = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_rec-moco_run-1_dwi')
+dti_34dir_run2_moco = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_rec-moco_run-2_dwi')
+dti_34dir_run3_moco = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_rec-moco_run-3_dwi')
 dti_52dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-52dir_dwi')
 dti_55dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-55dir_dwi')
 dti_62dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-62dir_dwi')
-dti_trace = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-trace_dwi')
 dwi_abcd = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-96dir_dwi')
 dwi_117dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-117dir_dwi')
 # Leave ABCD DWI distortion maps as non-BIDS.
@@ -291,13 +291,29 @@ dwi_117dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq
 #    'sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-dwi_dir-AP_epi')
 #dwi_distmap_pa = create_key(
 #    'sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-dwi_dir-PA_epi')
+dti_trace = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-trace_dwi')
 dti_adc = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-adc_dwi')
 dti_fa = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-fa_dwi')
 dti_colfa = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-colfa_dwi')
 dti_exp = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-exp_dwi')
+dti_trace_55dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-trace_acq-55dir_dwi')
+dti_adc_55dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-adc_acq-55dir_dwi')
+dti_fa_55dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-fa_acq-55dir_dwi')
+dti_colfa_55dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-colfa_acq-55dir_dwi')
+dti_exp_55dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_desc-exp_acq-55dir_dwi')
 noddi_b2000 =  create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-NODDIB2000_dwi')
 noddi_b700 =  create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-NODDIB700_dwi')
 noddi_b300 =  create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-NODDIB300_dwi')
+#dti_30dir_run1_bval = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-1_dwi')
+#dti_30dir_run1_bvec = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-1_dwi')
+#dti_30dir_run2_bval = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-2_dwi')
+#dti_30dir_run2_bvec = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-30dir_run-2_dwi')
+#dti_32dir_run1_bval = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-32dir_run-1_dwi')
+#dti_32dir_run1_bvec = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-32dir_run-1_dwi')
+#dti_34dir_run1_bval = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_run-1_dwi')
+#dti_34dir_run1_bvec = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_run-1_dwi')
+#dti_34dir_run1_moco_bval = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_rec-moco_run-1_dwi')
+#dti_34dir_run1_moco_bvec = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-34dir_rec-moco_run-1_dwi')
 
 #ASL
 # Input based on ASL draft certification?
@@ -371,11 +387,15 @@ def infotodict(seqinfo):
         rest_bold: [], rest_ap: [], rest_pa: [], rest_ap_sbref: [],
         rest_pa_sbref: [], pace: [], pace_moco: [],
         dti_12dir: [], dti_30dir: [], dti_30dir_ap: [], dti_30dir_pa: [],
-        dti_30dir_multirun: [], dti_32dir_multirun: [], dti_34dir: [], 
-        dti_34dir_multirun: [], dti_34dir_moco: [], 
+        dti_30dir_run1: [], dti_30dir_run2: [], dti_30dir_run3: [],
+        dti_32dir_run1: [], dti_32dir_run2: [], dti_32dir_run3: [],
+        dti_34dir: [], dti_34dir_moco: [],
+        dti_34dir_run1: [], dti_34dir_run2: [], dti_34dir_run3: [],
         dti_52dir: [], dti_55dir: [], dti_62dir: [], 
-        dwi_abcd: [], dwi_117dir: [], dti_trace: [], dti_adc: [], dti_fa: [],
-        dti_colfa: [], dti_exp: [], noddi_b2000: [], noddi_b700: [], noddi_b300: [],
+        dwi_abcd: [], dwi_117dir: [],
+        dti_trace: [], dti_adc: [], dti_fa: [], dti_colfa: [], dti_exp: [],
+        dti_trace_55dir: [], dti_adc_55dir: [], dti_fa_55dir: [], dti_colfa_55dir: [], dti_exp_55dir: [],
+        noddi_b2000: [], noddi_b700: [], noddi_b300: [],
         asl: [], asl_mz: [], asl_mp: [], asl_moco: [], 
         pcasl_3d: [], pcasl_3d_mz: [], pcasl_3d_mp: [],
         pasl: [], pasl_mp: [], casl: [], casl_mz: [], casl_moco: [], 
@@ -406,15 +426,24 @@ def infotodict(seqinfo):
 # 'NODDI_B_700'
 # MultiShell_117dir
 # DTI_P-A: 30-direction sequence + 2 B0 scans
+    # Find all of the DWI sequences that were run more than once in the session.
     dwi_seq = [ s for s in seqinfo if ('dti' in s.protocol_name.lower() or 
         'diff_mddw' in s.protocol_name.lower() or 'noddi' in s.protocol_name.lower() or
         'dmri' in s.protocol_name.lower() or 'multishell_117dir' in s.protocol_name.lower()) ]
-    dwi_times = [ datetime.datetime.strptime(s.date, '%Y-%m-%dT%H:%M:%S.%f') for s in dwi_seq ]
+    dwi_names = [ s.protocol_name.lower() for s in dwi_seq ]
+    n_scans = pandas.value_counts(dwi_names)
+    dwi_multi_names = [n for n in n_scans.index if n_scans[n] > 1]
+    if len(dwi_multi_names) > 0:
+        dwi_multi = [ s for s in dwi_seq if s.protocol_name.lower() in dwi_multi_names ]
+        dwi_times = [ datetime.datetime.strptime(s.date, '%Y-%m-%dT%H:%M:%S.%f') for s in dwi_multi ]
+    else:
+        dwi_times = [ datetime.datetime.strptime(s.date, '%Y-%m-%dT%H:%M:%S.%f') for s in dwi_seq ]    
     dwi_times = np.unique(dwi_times).tolist()
     dwi_times.sort()
     
     for s in seqinfo:
         protocol = s.protocol_name.lower()
+        mydatetime = datetime.datetime.strptime(s.date, '%Y-%m-%dT%H:%M:%S.%f')
         if "localizer" in protocol:
             info[locz].append(s.series_id)
         elif 'aahead_scout' in protocol:
@@ -611,72 +640,26 @@ def infotodict(seqinfo):
             info[fairest].append(s.series_id)
         elif "ep2d_fairest_ui_m0" in protocol:
             info[fairest_mz].append(s.series_id)
-        elif 'ep2d_diff_mddw_12' in protocol:
-            info[dti_12dir].append(s.series_id)
-        elif 'dti_12dir' in protocol:
-            info[dti_12dir].append(s.series_id)
-        elif len(dwi_times) == 1 and 'dti_30dir' in protocol:
-            info[dti_30dir].append(s.series_id)
-        elif s.series_description == 'DTI_A-P':
-            info[dti_30dir_ap].append(s.series_id)
-        elif s.series_description == 'DTI_P-A':
-            info[dti_30dir_pa].append(s.series_id)
-        elif s.series_description == 'DTI_A-P_BW2394':
-            info[dti_30dir_ap].append(s.series_id)
-        elif s.series_description == 'DTI_P-A_BW2394':
-            info[dti_30dir_pa].append(s.series_id)
-        elif len(dwi_times) == 1 and 'dti_34dir' in protocol:
-            info[dti_34dir].append(s.series_id)
-        elif len(dwi_times) == 1 and 'dti_34_dir' in protocol:
-            info[dti_34dir].append(s.series_id)
-        elif len(dwi_times) == 1 and protocol == 'dti_30dir_nodico_vox2_1000':
-            info[dti_34dir].append(s.series_id)
-        elif len(dwi_times) == 1 and protocol == 'dti_30dir_nodico_vox2_1000_moco':
-            info[dti_34dir_moco].append(s.series_id)
-        elif len(dwi_times) > 1 and 'dti_30dir' in protocol and 'bval' in s.dcm_dir_name:
-            info[dti_30dir_multirun_bval].append(s.series_id)
-        elif len(dwi_times) > 1 and 'dti_30dir' in protocol and 'bvec' in s.dcm_dir_name:
-            info[dti_30dir_multirun_bvec].append(s.series_id)
-        elif len(dwi_times) > 1 and 'dti_30dir' in protocol:
-            info[dti_30dir_multirun].append(s.series_id)
-        elif len(dwi_times) > 1 and 'dti_34dir' in protocol and 'bval' in s.dcm_dir_name:
-            info[dti_34dir_multirun_bval].append(s.series_id)
-        elif len(dwi_times) > 1 and 'dti_34dir' in protocol and 'bvec' in s.dcm_dir_name:
-            info[dti_34dir_multirun_bvec].append(s.series_id)
-        elif len(dwi_times) > 1 and 'dti_34dir' in protocol:
-            info[dti_34dir_multirun].append(s.series_id)
-        elif len(dwi_times) > 1 and 'dti_34_dir' in protocol and 'bval' in s.dcm_dir_name:
-            info[dti_34dir_multirun_bval].append(s.series_id)
-        elif len(dwi_times) > 1 and 'dti_34_dir' in protocol and 'bvec' in s.dcm_dir_name:
-            info[dti_34dir_multirun_bvec].append(s.series_id)
-        elif len(dwi_times) > 1 and 'dti_34_dir' in protocol:
-            info[dti_34dir_multirun].append(s.series_id)
-        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000' and 'bval' in s.dcm_dir_name:
-            info[dti_34dir_multirun_bval].append(s.series_id)
-        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000' and 'bvec' in s.dcm_dir_name:
-            info[dti_34dir_multirun_bvec].append(s.series_id)
-        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000':
-            info[dti_34dir_multirun].append(s.series_id)
-        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000_moco' and 'bval' in s.dcm_dir_name:
-            info[dti_34dir_multirun_moco_bval].append(s.series_id)
-        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000_moco' and 'bvec' in s.dcm_dir_name:
-            info[dti_34dir_multirun_moco_bvec].append(s.series_id)
-        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000_moco':
-            info[dti_34dir_multirun_moco].append(s.series_id)
-        elif protocol == 'axial_dti' and 'ORIGINAL' in s.series_description:
-            info[dti_52dir].append(s.series_id)
-        elif 'dti_2x32' in protocol:
-            info[dti_32dir_multirun].append(s.series_id)
-        elif 'long_dti_p-a' in protocol:
-            info[dti_55dir].append(s.series_id)
-        elif 'axial_dti' in protocol:
-            info[dti_55dir].append(s.series_id)
-        elif 'ep2d_dti_30dir_t' in protocol:
-            info[dti_62dir].append(s.series_id)
-        elif protocol == 'abcd_dmri':
-            info[dwi_abcd].append(s.series_id)
-        elif protocol == 'multishell_117dir':
-            info[dwi_117dir].append(s.series_id)
+        elif 'long_dti_p-a' in protocol and 'ADC' in s.image_type:
+            info[dti_adc_55dir].append(s.series_id)
+        elif 'long_dti_p-a' in protocol and 'ColFA' in s.series_description:
+            info[dti_colfa_55dir].append(s.series_id)
+        elif 'long_dti_p-a' in protocol and 'FA' in s.image_type:
+            info[dti_fa_55dir].append(s.series_id)
+        elif 'long_dti_p-a' in protocol and 'EXP' in s.image_type:
+            info[dti_exp_55dir].append(s.series_id)
+        elif 'long_dti_p-a' in protocol and 'TRACEW' in s.image_type:
+            info[dti_trace_55dir].append(s.series_id)
+        elif ('axial_dti_a>>p' in protocol or 'axial_dti_p>>a' in protocol) and 'ADC' in s.image_type:
+            info[dti_adc_55dir].append(s.series_id)
+        elif ('axial_dti_a>>p' in protocol or 'axial_dti_p>>a' in protocol) and 'ColFA' in s.series_description:
+            info[dti_colfa_55dir].append(s.series_id)
+        elif ('axial_dti_a>>p' in protocol or 'axial_dti_p>>a' in protocol) and 'FA' in s.image_type:
+            info[dti_fa_55dir].append(s.series_id)
+        elif ('axial_dti_a>>p' in protocol or 'axial_dti_p>>a' in protocol) and 'EXP' in s.image_type:
+            info[dti_exp_55dir].append(s.series_id)
+        elif ('axial_dti_a>>p' in protocol or 'axial_dti_p>>a' in protocol) and 'TRACEW' in s.image_type:
+            info[dti_trace_55dir].append(s.series_id)
         elif 'dti' in protocol and 'ADC' in s.image_type:
             info[dti_adc].append(s.series_id)
         elif 'dti' in protocol and 'ColFA' in s.series_description:
@@ -693,6 +676,72 @@ def infotodict(seqinfo):
             info[dti_trace].append(s.series_id)
         elif 'ep2d_diff_3scan_trace' in protocol and 'ADC' in s.image_type:
             info[dti_adc].append(s.series_id)
+        elif 'ep2d_diff_mddw_12' in protocol:
+            info[dti_12dir].append(s.series_id)
+        elif 'dti_12dir' in protocol:
+            info[dti_12dir].append(s.series_id)
+        elif 'ep2d_dti_30dir_t' in protocol:
+            info[dti_62dir].append(s.series_id)
+        elif protocol == 'dti_30dir_nodico_vox2_1000' and not protocol in dwi_multi_names:
+            info[dti_34dir].append(s.series_id)
+        elif protocol == 'dti_30dir_nodico_vox2_1000_moco' and not protocol in dwi_multi_names:
+            info[dti_34dir_moco].append(s.series_id)
+        elif 'dti_30dir' in protocol and not 'dti_30dir' in dwi_multi_names:
+            info[dti_30dir].append(s.series_id)
+        elif s.series_description == 'DTI_A-P':
+            info[dti_30dir_ap].append(s.series_id)
+        elif s.series_description == 'DTI_P-A':
+            info[dti_30dir_pa].append(s.series_id)
+        elif s.series_description == 'DTI_A-P_BW2394':
+            info[dti_30dir_ap].append(s.series_id)
+        elif s.series_description == 'DTI_P-A_BW2394':
+            info[dti_30dir_pa].append(s.series_id)
+        elif 'dti_34dir' in protocol and not 'dti_34dir' in dwi_multi_names:
+            info[dti_34dir].append(s.series_id)
+        elif 'dti_34_dir' in protocol and not 'dti_34_dir' in dwi_multi_names:
+            info[dti_34dir].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[0] and 'dti_30dir' in protocol and 'dti_30dir' in dwi_multi_names:
+            info[dti_30dir_run1].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[1] and 'dti_30dir' in protocol and 'dti_30dir' in dwi_multi_names:
+            info[dti_30dir_run2].append(s.series_id)
+        elif len(dwi_times) > 2 and mydatetime == dwi_times[2] and 'dti_30dir' in protocol and 'dti_30dir' in dwi_multi_names:
+            info[dti_30dir_run3].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[0] and 'dti_34dir' in protocol and 'dti_34dir' in dwi_multi_names:
+            info[dti_34dir_run1].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[1] and 'dti_34dir' in protocol and 'dti_34dir' in dwi_multi_names:
+            info[dti_34dir_run2].append(s.series_id)
+        elif len(dwi_times) > 2 and mydatetime == dwi_times[2] and 'dti_34dir' in protocol and 'dti_34dir' in dwi_multi_names:
+            info[dti_34dir_run3].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[0] and 'dti_34_dir' in protocol and 'dti_34_dir' in dwi_multi_names:
+            info[dti_34dir_run1].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[1] and 'dti_34_dir' in protocol and 'dti_34_dir' in dwi_multi_names:
+            info[dti_34dir_run2].append(s.series_id)
+        elif len(dwi_times) > 2 and mydatetime == dwi_times[2] and 'dti_34_dir' in protocol and 'dti_34_dir' in dwi_multi_names:
+            info[dti_34dir_run3].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[0] and protocol == 'dti_30dir_nodico_vox2_1000' and protocol in dwi_multi_names:
+            info[dti_34dir_run1].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[1] and protocol == 'dti_30dir_nodico_vox2_1000' and protocol in dwi_multi_names:
+            info[dti_34dir_run2].append(s.series_id)
+        elif len(dwi_times) > 2 and mydatetime == dwi_times[2] and protocol == 'dti_30dir_nodico_vox2_1000' and protocol in dwi_multi_names:
+            info[dti_34dir_run3].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[0] and protocol == 'dti_30dir_nodico_vox2_1000_moco' and protocol in dwi_multi_names:
+            info[dti_34dir_run1_moco].append(s.series_id)
+        elif len(dwi_times) > 1 and mydatetime == dwi_times[1] and protocol == 'dti_30dir_nodico_vox2_1000_moco' and protocol in dwi_multi_names:
+            info[dti_34dir_run2_moco].append(s.series_id)
+        elif len(dwi_times) > 2 and mydatetime == dwi_times[2] and protocol == 'dti_30dir_nodico_vox2_1000_moco' and protocol in dwi_multi_names:
+            info[dti_34dir_run3_moco].append(s.series_id)
+        elif protocol == 'axial_dti' and 'ORIGINAL' in s.series_description:
+            info[dti_52dir].append(s.series_id)
+        elif 'dti_2x32' in protocol:
+            info[dti_32dir_run1].append(s.series_id)
+        elif 'long_dti_p-a' in protocol:
+            info[dti_55dir].append(s.series_id)
+        elif 'axial_dti_a>>p' in protocol or 'axial_dti_p>>a' in protocol:
+            info[dti_55dir].append(s.series_id)
+        elif protocol == 'abcd_dmri':
+            info[dwi_abcd].append(s.series_id)
+        elif protocol == 'multishell_117dir':
+            info[dwi_117dir].append(s.series_id)
         elif 'noddi_b_2000' in protocol:
             info[noddi_b2000].append(s.series_id)
         elif 'noddi_b_700' in protocol:
@@ -881,5 +930,26 @@ IntendedFor = {
     # dwi_distmap_pa: [ '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
 
 }
+
+#        elif len(dwi_times) > 1 and 'dti_30dir' in protocol and 'bval' in s.dcm_dir_name:
+#            info[dti_30dir_run1_bval].append(s.series_id)
+#        elif len(dwi_times) > 1 and 'dti_30dir' in protocol and 'bvec' in s.dcm_dir_name:
+#            info[dti_30dir_run1_bvec].append(s.series_id)
+#        elif len(dwi_times) > 1 and 'dti_34dir' in protocol and 'bval' in s.dcm_dir_name:
+#            info[dti_34dir_run1_bval].append(s.series_id)
+#        elif len(dwi_times) > 1 and 'dti_34dir' in protocol and 'bvec' in s.dcm_dir_name:
+#            info[dti_34dir_run1_bvec].append(s.series_id)
+#        elif len(dwi_times) > 1 and 'dti_34_dir' in protocol and 'bval' in s.dcm_dir_name:
+#            info[dti_34dir_run1_bval].append(s.series_id)
+#        elif len(dwi_times) > 1 and 'dti_34_dir' in protocol and 'bvec' in s.dcm_dir_name:
+#            info[dti_34dir_run1_bvec].append(s.series_id)
+#        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000' and 'bval' in s.dcm_dir_name:
+#            info[dti_34dir_run1_bval].append(s.series_id)
+#        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000' and 'bvec' in s.dcm_dir_name:
+#            info[dti_34dir_run1_bvec].append(s.series_id)
+#        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000_moco' and 'bval' in s.dcm_dir_name:
+#            info[dti_34dir_run1_moco_bval].append(s.series_id)
+#        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000_moco' and 'bvec' in s.dcm_dir_name:
+#            info[dti_34dir_run1_moco_bvec].append(s.series_id)
 
 
