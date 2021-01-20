@@ -36,8 +36,8 @@ def create_key(template, outtype=('nii.gz',), annotation_classes=None):
 # 'AAHead_Scout'
 # vessel_scout Vessel_scout_12.nii.gz
 locz = create_key('sub-{subject}/{session}/localizer/sub-{subject}_{session}_run{item}_localizer')
-t2w_locz = create_key('sub-{subject}/{session}/localizer/sub-{subject}_{session}_acq-T2w_localizer')
-vess_scout = create_key('sub-{subject}/{session}/localizer/sub-{subject}_{session}_acq-vessel_localizer')
+t2w_locz = create_key('sub-{subject}/{session}/localizer/sub-{subject}_{session}_acq-T2w_run{item}_localizer')
+vess_scout = create_key('sub-{subject}/{session}/localizer/sub-{subject}_{session}_acq-vessel_run{item}_localizer')
 
 # anatomical images
 #'t1_mpr_AX_MPRAGE'
@@ -52,20 +52,20 @@ vess_scout = create_key('sub-{subject}/{session}/localizer/sub-{subject}_{sessio
 # 3DT1
 # t1_mpr_AX_MPRAGE
 # 3DT1
-t1w = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T1w')
-t1w_ax = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T1w')
-t1w_sag = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_T1w')
-t1w_3d = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_T1w')
-t1w_3d_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_rec-ND_T1w')
-t1w_norm = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-norm_T1w')
-t1w_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_rec-gradwarp_T1w')
-t1w_body = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_coil-body_T1w')
-t1w_grappa = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-grappa_T1w')
+t1w = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_run{item}_T1w')
+t1w_ax = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_run{item}_T1w')
+t1w_sag = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_run{item}_T1w')
+t1w_3d = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_run{item}_T1w')
+t1w_3d_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_rec-ND_run{item}_T1w')
+t1w_norm = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-norm_run{item}_T1w')
+t1w_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_rec-gradwarp_run{item}_T1w')
+t1w_body = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_coil-body_run{item}_T1w')
+t1w_grappa = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-grappa_run{item}_T1w')
 # T1w vNav
-t1w_vnav_moco_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavmoco_rec-ND_T1w')
-t1w_vnav_pass_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavpass_rec-ND_T1w')
-t1w_vnav_moco = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavmoco_T1w')
-t1w_vnav_pass = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavpass_T1w')
+t1w_vnav_moco_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavmoco_rec-ND_run{item}_T1w')
+t1w_vnav_pass_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavpass_rec-ND_run{item}_T1w')
+t1w_vnav_moco = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavmoco_run{item}_T1w')
+t1w_vnav_pass = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavpass_run{item}_T1w')
 
 # T2-weighted anatomical images.
 #'t2_tse_obl_448_2mm'
@@ -86,29 +86,29 @@ t1w_vnav_pass = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}
 # T2_TSE_AXIAL, t2w_tse_gradwarp
 # t2_fl2d_tra_hemo_5, t2w_gradwarp if "M" in image_type, t2w_gradwarp_phase if "P" in image_type
 # Axial_T2_ACPC_ANGLE, t2w_gradwarp
-t2w = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T2w')
-t2w_norm = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-norm_T2w')
-t2w_tse_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-tse_rec-gradwarp_T2w')
-t2w_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-gradwarp_T2w')
-t2w_gradwarp_phase = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_part-phase_rec-gradwarp_T2w')
-t2w_hippo = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-hippo_T2w')
-t2w_hippo_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-hippo_rec-ND_T2w')
-t2w_space = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-space_T2w')
-t2w_sag = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_T2w')
+t2w = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_run{item}_T2w')
+t2w_norm = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-norm_run{item}_T2w')
+t2w_tse_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-tse_rec-gradwarp_run{item}_T2w')
+t2w_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_rec-gradwarp_run{item}_T2w')
+t2w_gradwarp_phase = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_part-phase_rec-gradwarp_run{item}_T2w')
+t2w_hippo = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-hippo_run{item}_T2w')
+t2w_hippo_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-hippo_rec-ND_run{item}_T2w')
+t2w_space = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-space_run{item}_T2w')
+t2w_sag = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_run{item}_T2w')
 # Kinda making this up, but t2w_gap will include the t2_nex_1 and t2_tse_tra
 # sequences--both axial T2 scans with only partial slice coverage due to large 
 # gaps (4+ mm) between slices.
-t2w_gap = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-gap_T2w')
+t2w_gap = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-gap_run{item}_T2w')
 # T2 SPC vNavs
-t2w_vnav_pass_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavpass_rec-ND_T2w')
-t2w_vnav_pass = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavpass_T2w')
+t2w_vnav_pass_nd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavpass_rec-ND_run{item}_T2w')
+t2w_vnav_pass = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-vnavpass_run{item}_T2w')
 
 # T2 star:
 # AXT2_STAR_ACPC_ANGLE
 # T2_STAR
 # t2 T2_5.nii.gz: the "T2" protocol is actually "T2*", but the asterisk gets stripped
-t2star = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_T2star')
-t2star_acpc = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-acpc_T2star')
+t2star = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_run{item}_T2star')
+t2star_acpc = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-acpc_run{item}_T2star')
 
 # FLAIR
 # 'AX_FLAIR_3mm'
@@ -121,32 +121,32 @@ t2star_acpc = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_a
 # flair FLAIR_4.nii.gz
 # flair FLAIR_5.nii.gz
 
-flair_3d = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_FLAIR')
-flair_3d_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_rec-gradwarp_FLAIR')
-flair_ax = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-axial_FLAIR')
-flair_ax_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-axial_rec-gradwarp_FLAIR')
-flair_sag = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_FLAIR')
+flair_3d = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_run{item}_FLAIR')
+flair_3d_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-3D_rec-gradwarp_run{item}_FLAIR')
+flair_ax = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-axial_run{item}_FLAIR')
+flair_ax_gradwarp = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-axial_rec-gradwarp_run{item}_FLAIR')
+flair_sag = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-sag_run{item}_FLAIR')
 
 # SWI (susceptibility-weighted imaging)
-swi_mag = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_part-mag_GRE')
-swi_ph = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_part-phase_GRE')
-swi_combo = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_swi')
-swi_minip = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_minIP')
+swi_mag = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_part-mag_run{item}_GRE')
+swi_ph = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_part-phase_run{item}_GRE')
+swi_combo = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_run{item}_swi')
+swi_minip = create_key('sub-{subject}/{session}/swi/sub-{subject}_{session}_run{item}_minIP')
 
 # Proton density
 #'pd_tse_tra'
-pd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_PD')
+pd = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_run{item}_PD')
 
 # Combined proton density/T2 scan
 #'Axial_PD-T2_TSE'
 # pdt2 PDT2_6_e1.nii.gz
-pdt2 = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_PDT2')
+pdt2 = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_run{item}_PDT2')
 
 # Angiography
 # fl_tof_neck fl_tof_neck_16.nii.gz
 # tof_3d_multi-slab TOF_3D_multi-slab_25.nii.gz
 # tof_3d_multi-slab TOF_3D_multi-slab_24.nii.gz
-tof = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_angio')
+tof = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_run{item}_angio')
 
 # Field maps
 #'b0map_v4'
@@ -185,11 +185,11 @@ fm_phasediff6 = create_key(
 fm_mag6 = create_key(
     'sub-{subject}/{session}/fmap/sub-{subject}_{session}_magnitude{item}')
 fm_ap1 = create_key(
-    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-AP_epi')
+    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_run{item}_dir-AP_epi')
 fm_pa1 = create_key(
-    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_dir-PA_epi')
+    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_run{item}_dir-PA_epi')
 fm_gre = create_key(
-    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_fieldmap')
+    'sub-{subject}/{session}/fmap/sub-{subject}_{session}_run{item}_fieldmap')
 
 # BOLD fMRI
 # 'Resting_bold_124'
@@ -222,11 +222,11 @@ fm_gre = create_key(
 # ep2d_pace_max_205_moco ep2d_pace_max_205_MoCo_8.nii.gz
 # fmri fMRI_12.nii.gz
 # fmri fMRI_13.nii.gz
-rest_bold = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_bold')
-rest_ap = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-AP_bold')
-rest_pa = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-PA_bold')
-rest_ap_sbref = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-AP_sbref')
-rest_pa_sbref = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-PA_sbref')
+rest_bold = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_run{item}_bold')
+rest_ap = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-AP_run{item}_bold')
+rest_pa = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-PA_run{item}_bold')
+rest_ap_sbref = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-AP_run{item}_sbref')
+rest_pa_sbref = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_dir-PA_run{item}_sbref')
 pace = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_acq-pace_run-{item}_bold')
 pace_moco = create_key('sub-{subject}/{session}/func/sub-{subject}_{session}_task-rest_acq-pace_rec-moco_run-{item}_bold')
 
@@ -339,23 +339,23 @@ noddi_b300 =  create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_ac
 # ep2d_casl_1500ms_moco ep2d_casl_1500ms_MoCo_7.nii.gz
 # ep2d_casl_am_ui_1500ms ep2d_casl_AM_UI_1500ms_3.nii.gz
 # ep2d_casl_am_ui_1500ms_moco ep2d_casl_AM_UI_1500ms_MoCo_4.nii.gz
-asl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_asl')
-asl_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_m0scan')
-asl_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_cbf')
-asl_moco = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_rec-moco_asl')
-pcasl_3d = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-3D_asl')
-pcasl_3d_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-3D_m0scan')
-pcasl_3d_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-3D_cbf')
+asl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_run{item}_asl')
+asl_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_run{item}_m0scan')
+asl_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_run{item}_cbf')
+asl_moco = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_rec-moco_run{item}_asl')
+pcasl_3d = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-3D_run{item}_asl')
+pcasl_3d_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-3D_run{item}_m0scan')
+pcasl_3d_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-3D_run{item}_cbf')
 # Should we use the acq entity like this? How specific should filenames strive to be?
-pasl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-pasl_asl')
-pasl_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-pasl_cbf')
-casl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-casl_asl')
-casl_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-casl_m0scan')
-casl_moco = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-casl_rec-moco_asl')
-fairest = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_asl')
-fairest_moco = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_rec-moco_asl')
-fairest_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_m0scan')
-fairest_moco_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_rec-moco_m0scan')
+pasl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-pasl_run{item}_asl')
+pasl_mp = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-pasl_run{item}_cbf')
+casl = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-casl_run{item}_asl')
+casl_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-casl_run{item}_m0scan')
+casl_moco = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-casl_rec-moco_run{item}_asl')
+fairest = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_run{item}_asl')
+fairest_moco = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_rec-moco_run{item}_asl')
+fairest_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_run{item}_m0scan')
+fairest_moco_mz = create_key('sub-{subject}/{session}/asl/sub-{subject}_{session}_acq-fairest_rec-moco_run{item}_m0scan')
 
 from collections import defaultdict
 def infotodict(seqinfo):
@@ -872,42 +872,92 @@ MetadataExtras = {
 IntendedFor = {
 
     # B0 fieldmap
-    fm_phasediff1: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
-    fm_mag1: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
+    fm_phasediff1: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
+    fm_mag1: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
 
-    fm_phasediff2: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
-    fm_mag2: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
+    fm_phasediff2: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
+    fm_mag2: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
 
-    fm_phasediff3: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
-    fm_mag3: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
+    fm_phasediff3: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
+    fm_mag3: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
 
-    fm_phasediff4: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
-    fm_mag4: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
+    fm_phasediff4: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
+    fm_mag4: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
 
-    fm_phasediff5: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
-    fm_mag5: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
+    fm_phasediff5: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
+    fm_mag5: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
 
-    fm_phasediff6: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
-    fm_mag6: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz' ],
+    fm_phasediff6: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
+    fm_mag6: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz'],
 
-    fm_ap1: [ '{session}/func/{subject}_{session}_task-rest_dir-AP_bold.nii.gz',
-        '{session}/func/{subject}_{session}_task-rest_dir-PA_bold.nii.gz',
-        '{session}/func/{subject}_{session}_task-rest_bold.nii.gz',
+    fm_ap1: [ '{session}/func/{subject}_{session}_task-rest_dir-AP_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-AP_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-PA_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-PA_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-AP_run1_sbref.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-AP_run2_sbref.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-PA_run1_sbref.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-PA_run2_sbref.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz',
         '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
-
-#    fm_ap1: [ '{session}/func/{subject}_{session}_task-rest_dir-PA_bold.nii.gz',
-#        '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
         
-    fm_pa1: [ '{session}/func/{subject}_{session}_task-rest_dir-AP_bold.nii.gz',
-        '{session}/func/{subject}_{session}_task-rest_dir-PA_bold.nii.gz',
-        '{session}/func/{subject}_{session}_task-rest_bold.nii.gz',
+    fm_pa1: [ '{session}/func/{subject}_{session}_task-rest_dir-AP_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-AP_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-PA_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-PA_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-AP_run1_sbref.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-AP_run2_sbref.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-PA_run1_sbref.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_dir-PA_run2_sbref.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz',
         '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
 
-#    fm_pa1: [ '{session}/func/{subject}_{session}_task-rest_dir-PA_bold.nii.gz',
-#        '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
-
-#    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz'],
-    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz',
+    fm_gre: [ '{session}/func/{subject}_{session}_task-rest_run1_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run2_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run3_bold.nii.gz',
+        '{session}/func/{subject}_{session}_task-rest_run4_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_acq-pace_run-1_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_acq-pace_rec-moco_run-1_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_acq-pace_run-2_bold.nii.gz',
@@ -930,26 +980,3 @@ IntendedFor = {
     # dwi_distmap_pa: [ '{session}/dwi/{subject}_{session}_acq-96dir_dwi.nii.gz' ],
 
 }
-
-#        elif len(dwi_times) > 1 and 'dti_30dir' in protocol and 'bval' in s.dcm_dir_name:
-#            info[dti_30dir_run1_bval].append(s.series_id)
-#        elif len(dwi_times) > 1 and 'dti_30dir' in protocol and 'bvec' in s.dcm_dir_name:
-#            info[dti_30dir_run1_bvec].append(s.series_id)
-#        elif len(dwi_times) > 1 and 'dti_34dir' in protocol and 'bval' in s.dcm_dir_name:
-#            info[dti_34dir_run1_bval].append(s.series_id)
-#        elif len(dwi_times) > 1 and 'dti_34dir' in protocol and 'bvec' in s.dcm_dir_name:
-#            info[dti_34dir_run1_bvec].append(s.series_id)
-#        elif len(dwi_times) > 1 and 'dti_34_dir' in protocol and 'bval' in s.dcm_dir_name:
-#            info[dti_34dir_run1_bval].append(s.series_id)
-#        elif len(dwi_times) > 1 and 'dti_34_dir' in protocol and 'bvec' in s.dcm_dir_name:
-#            info[dti_34dir_run1_bvec].append(s.series_id)
-#        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000' and 'bval' in s.dcm_dir_name:
-#            info[dti_34dir_run1_bval].append(s.series_id)
-#        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000' and 'bvec' in s.dcm_dir_name:
-#            info[dti_34dir_run1_bvec].append(s.series_id)
-#        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000_moco' and 'bval' in s.dcm_dir_name:
-#            info[dti_34dir_run1_moco_bval].append(s.series_id)
-#        elif len(dwi_times) > 1 and protocol == 'dti_30dir_nodico_vox2_1000_moco' and 'bvec' in s.dcm_dir_name:
-#            info[dti_34dir_run1_moco_bvec].append(s.series_id)
-
-
