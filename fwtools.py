@@ -128,10 +128,10 @@ def run_dcm2niix(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcente
     
     return results
 
-def run_fmriprep(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', ignore = '', t1_file = None):
+def run_fmriprep(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', gearName = 'bids-fmriprep', ignore = '', t1_file = None):
     projectPath = '{}/{}'.format(group, projectLabel)
     proj = fw.lookup(projectPath)
-    fmriprep = fw.lookup('gears/fmriprep-fwheudiconv')
+    fmriprep = fw.lookup('gears/' + gearName)
     
     # Destination session.
     sess = fw.lookup('/'.join([group,projectLabel,str(subjectLabel),str(sessionLabel)]))
@@ -158,45 +158,48 @@ def run_fmriprep(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcente
     
     # If there are no fieldmaps, do what?
     config = {
-        'anat_only': False,
-        'aroma_melodic_dimensionality': -200,
-        'bold2t1w_dof': 6,
-        'cifti_output': 'None',
-        'dummy_scans': 0,
-        'fd_spike_threshold': 0.5,
-        'fmap_bspline': False,
-        'fmap_no_demean': False,
-        'force_bbr': False,
-        'force_no_bbr': False,
-        'force_syn': False,
-        'fs_no_reconall': False,
-        'ignore': ignore,
-        'intermediate_files': '',
-        'intermediate_folders': '',
+        'skip-bids-validation': False,
+        'anat-only': False,
+        'error-on-aroma-warnings': False,
+        'verbose': 'vv',
+        'ignore': '',
         'longitudinal': False,
-        'low_mem': False,
-        'medial_surface_nan': False,
-        'no_submm_recon': False,
-        'no_track': False,
-        'output_spaces': 'anat fsnative fsaverage MNI152NLin2009cAsym:res-2',
-        'return_all_components': False,
-        'save_intermediate_work': False,
-        'save_outputs': True,
-        'sge-cpu': '8',
-        'sge-ram': '64G',
-        'sge-short': False,
-        'singularity-debug': False,
-        'singularity-writable': False,
-        'skip_bids_validation': False,
-        'skull_strip_fixed_seed': False,
-        'skull_strip_template': 'OASIS30ANTs',
-        'sloppy_mode': False,
-        't2s_coreg': False,
-        'task_id': '',
-        'timeout': 2,
-        'use_all_sessions': False,
-        'use_aroma': False,
-        'use_syn_sdc': False
+        'output-spaces': 'anat fsnative fsaverage MNI152NLin2009cAsym:res-2',
+        'bold2t1w-init': 'register',
+        'bold2t1w-dof': 6,
+        'force-bbr': False,
+        'force-no-bbr': False,
+        'medial-surface-nan': False,
+        'dummy-scans': 0,
+        'use-aroma': False,
+        'aroma-melodic-dimensionality': -200,
+        'return-all-components': False,
+        'fd-spike-threshold': 0.5,
+        'dvars-spike-threshold': 1.5,
+        'skull-strip-template': 'OASIS30ANTs',
+        'skull-strip-fixed-seed': False,
+        'skull-strip-t1w': force,
+        'fmap-bspline': False,
+        'fmap-no-demean': False,
+        'use-syn-sdc': False,
+        'force-syn': False,
+        'no-submm-recon': False,
+        'cifti-output': False,
+        'fs-no-reconall': False,
+        'resource-monitor': False,
+        'reports-only': False,
+        'write-graph': True,
+        'stop-on-first-crash': False,
+        'notrack': False,
+        'debug': '',
+        'gear-log-level': INFO,
+        'gear-run-bids-validation': False,
+        'gear-save-intermediate-output': False,
+        'gear-intermediate-files': '',
+        'gear-intermediate-folders': '',
+        'gear-dry-run': False,
+        'gear-keep-output': True,
+        'gear-keep-fsaverage': False
         }
     
     result = None
