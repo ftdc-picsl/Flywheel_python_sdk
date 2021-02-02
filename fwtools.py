@@ -214,6 +214,94 @@ def run_fmriprep(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcente
     
     return result
 
+def run_qsiprep(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', gearName = 'qsiprep-fw', 
+    recon_spec = None, t1w_anatomy = None, **kwargs):
+    '''
+        Function to run qsiprep. Must specify project, subject, and session labels. Variables recon_spec and
+        t1w_anatomy are None by default but can be set with Flywheel file objects. Additional keyword arguments
+        (**kwargs) can be specified to modify qsiprep config values.
+    '''
+    projectPath = '{}/{}'.format(group, projectLabel)
+    proj = fw.lookup(projectPath)
+    g = fw.lookup('gears/' + gearName)
+    
+    # Destination session.
+    sess = fw.lookup('/'.join([group,projectLabel,str(subjectLabel),str(sessionLabel)]))
+    
+    # Get the index of the FreeSurfer license file among the project files.
+    findex = [(i,f.name) for i,f in enumerate(proj.files) if 'license.txt' in f.name][0][0]
+    now = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M")
+    analysis_label = '{}_{}_{}_{}_{}'.format(str(subjectLabel), 
+        str(sessionLabel), g.gear.name, g.gear.version, now)
+ 
+
+    inputs = {
+        'freesurfer_license': proj.files[findex],
+    }
+    if recon_spec is not None:
+        inputs['recon_spec'] = recon_spec
+    
+    if t1w_anatomy is not None:
+        inputs['t1w_anatomy'] = t1w_anatomy
+   
+    config = {
+        'b0_motion_corr_to': 'iterative',
+        'b0_threshold': 100,
+        'b0_to_t1w_transform': 'Rigid',
+        'combine_all_dwis': True,
+        'denoise_before_combining': True,
+        'distortion_group_merge': 'none',
+        'do_reconall': False,
+        'dwi_denoise_window': 5,
+        'dwi_no_biascorr': False,
+        'fmap_bspline': False,
+        'fmap_no_demean': False,
+        'force_spatial_normalization': True,
+        'force_syn': False,
+        'hmc_model': 'eddy',
+        'hmc_transform': 'Affine',
+        'ignore': '',
+        'impute_slice_threshold': 0,
+        'intermediate_files': '',
+        'intermediate_folders': '',
+        'intramodal_template_iters': 0,
+        'intramodal_template_transform': 'BSplineSyN',
+        'longitudinal': False,
+        'no_b0_harmonization': False,
+        'notrack': False,
+        'output_resolution': 1.7,
+        'output_space': 'T1w',
+        'recon_builtin': '',
+        'save_intermediate_work': False,
+        'save_partial_outputs': False,
+        'shoreline_iters': 2,
+        'skip_bids_validation': False,
+        'skull_strip_fixed_seed': False,
+        'skull_strip_template': 'OASIS',
+        'sloppy': False,
+        'template': 'MNI152NLin2009cAsym',
+        'timeout': 2,
+        'unringing_method': 'mrdegibbs',
+        'use_all_sessions': False,
+        'use_syn_sdc': False,
+        'write_local_bvecs': False
+    }
+    
+    for key, value in kwargs.items():
+        config[key] = value
+    
+    result = None
+    
+    try:
+        anz_id = g.run(config = config, analysis_label = analysis_label, 
+            tags = None, destination = fw.get(sess.id), inputs = inputs)
+        result = anz_id
+    except Exception as e:
+        print(e)
+        result = e
+    
+    return result
+
 def run_xcp(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', designFile = 'fc-36p_despike.dsn'):
     projectPath = '{}/{}'.format(group, projectLabel)
     proj = fw.lookup(projectPath)
