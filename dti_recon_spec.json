@@ -1,0 +1,23 @@
+{
+  "name": "dsistudio_dti_pipeline",
+  "space": "T1w",
+  "anatomical": ["mrtrix_5tt"],
+  "atlases": ["schaefer200x7", "schaefer400x7", "aal116"],
+  "nodes": [
+    {
+      "name": "dsistudio_dti",
+      "software": "DSI Studio",
+      "action": "reconstruction",
+      "input": "qsiprep",
+      "output_suffix": "dti",
+      "parameters": {"method": "dti"}
+    },
+    {
+      "name": "scalar_export",
+      "software": "DSI Studio",
+      "action": "export",
+      "input": "dsistudio_dti",
+      "output_suffix": "dtiscalar"
+    }
+  ]
+}
