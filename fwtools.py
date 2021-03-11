@@ -60,7 +60,7 @@ def get_latest_fmriprep(session, stateType = ['complete'], outputType = 'analysi
             elif outputType == 'job':
                 return(latest_run.job)
             elif outputType == 'file':
-                fmriprep_out = [x for x in latest_run.files if 'fmriprep' in x.name][1]
+                fmriprep_out = [x for x in latest_run.files if ('zip' in x.name and not 'html' in x.name)].pop()
                 return(fmriprep_out)
         else:
             return None
@@ -302,11 +302,11 @@ def run_qsiprep(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter
     
     return result
 
-def run_xcp(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', designFile = 'fc-36p_despike.dsn'):
+def run_xcp(projectLabel, subjectLabel, sessionLabel, fmriprep = None, group = 'pennftdcenter', designFile = 'fc-36p_despike.dsn'):
     projectPath = '{}/{}'.format(group, projectLabel)
     proj = fw.lookup(projectPath)
     
-    # xcpEngine design file: configures the moduules to be run.
+    # xcpEngine design file: configures the modules to be run.
     dsn = [x for x in proj.files if designFile in x.name][0]
     dsn = proj.get_file(dsn.name)
     
@@ -314,7 +314,8 @@ def run_xcp(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', d
     sess = fw.lookup('/'.join([group,projectLabel,str(subjectLabel),str(sessionLabel)]))
     
     # Get the latest fmriprep path.
-    fmriprep = get_latest_fmriprep(sess)
+    if fmriprep is None:
+        fmriprep = get_latest_fmriprep(sess, outputType = "file")
     
     if fmriprep is not None:
         # Get the xcpEngine gear.
@@ -326,12 +327,15 @@ def run_xcp(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', d
             str(sessionLabel), xcp.gear.name, xcp.gear.version, now)
         
         myconfig = {
-            'analysis_type': 'fc'
+            'analysis_type': 'fc',
+            'session': sessionLabel,
+            'space': 'T1w',
+            'task_name': 'rest'
         }
         
         myinput = {
-            'fmriprepdir': fmriprep,
             'designfile': dsn,
+            'fmriprepdir': fmriprep,
         }
         
         # Actually run the thing.
@@ -349,7 +353,6 @@ def run_xcp(projectLabel, subjectLabel, sessionLabel, group = 'pennftdcenter', d
         result = None
     
     return result
-
 
 def get_zip_member(project, subject, session, regexp_anz, regexp_member, outPath, regexp_zip = "", group = 'pennftdcenter'):
     '''
