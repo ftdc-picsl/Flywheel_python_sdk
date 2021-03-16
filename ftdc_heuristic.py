@@ -832,11 +832,11 @@ def infotodict(seqinfo):
             info[rest_bold].append(s.series_id)
         elif protocol == "fmri":
             info[rest_bold].append(s.series_id)
-        elif "ep2d_max_pace" in protocol and "moco" in s.series_description:
+        elif "ep2d_max_pace" in protocol and "MoCo" in s.series_description:
             info[pace_moco].append(s.series_id)
         elif "ep2d_max_pace" in protocol:
             info[pace].append(s.series_id)
-        elif "ep2d_pace_max" in protocol and "moco" in s.series_description:
+        elif "ep2d_pace_max" in protocol and "MoCo" in s.series_description:
             info[pace_moco].append(s.series_id)
         elif "ep2d_pace_max" in protocol:
             info[pace].append(s.series_id)
