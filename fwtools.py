@@ -321,6 +321,22 @@ def run_xcp(projectLabel, subjectLabel, sessionLabel, fmriprep = None, group = '
         # Get the xcpEngine gear.
         xcp = fw.lookup('gears/xcpengine-fw')
         
+        # Find all input preproc_bold images in the fmriprep output
+        boldfiles = get_zip_member(zipfile = fmriprep, regexp_member = ".*space-T1w_desc-preproc_bold.nii.gz$",)
+        
+        # Create a single-subject cohort file on the fly and attach to the session.
+        boldfiles['id0'] = subjectLabel.replace("-", "").replace(".","").replace("_","")
+        boldfiles['id1'] = sessionLabel.replace("-", "").replace(".","").replace("_","")
+        boldfiles['img'] = ""
+        for i in boldfiles.index:
+            boldfiles.loc[i,"img"] = "/".join(boldfiles.loc[i,"ZipMember"].split("/")[2:])
+        cohort = boldfiles[["id0","id1","img"]]
+        cohort.to_csv("cohortfile.csv", index = False)
+        sess_files = [f.name for f in sess.files]
+        if "cohortfile.csv" in sess_files:
+            sess.delete_file("cohortfile.csv")
+        sess.upload_file("cohortfile.csv")
+
         # Create a label for the analysis.
         now = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M")
         analysis_label = '{}_{}_{}_{}_{}'.format(str(subjectLabel), 
@@ -354,7 +370,7 @@ def run_xcp(projectLabel, subjectLabel, sessionLabel, fmriprep = None, group = '
     
     return result
 
-def get_zip_member(project, subject, session, regexp_anz, regexp_member, outPath, regexp_zip = "", group = 'pennftdcenter'):
+def get_zip_member(zipfile = None, group = 'pennftdcenter', project = None, subject = None, session = None, regexp_zip = "", regexp_anz = "", regexp_member = ".*space-T1w_desc-preproc_bold.nii.gz$", outPath = "./", download = False):
     '''
     Function to find and download specific files from an analysis zip file.
     Relies on matching of user-specified regular expressions for both the 
@@ -374,55 +390,58 @@ def get_zip_member(project, subject, session, regexp_anz, regexp_member, outPath
         will be used.
     '''
     
-    sesspath = '{}/{}/{}/{}'.format(group, project, str(subject), str(session))
-    sess = fw.get(fw.lookup(sesspath).id)
-    results = []
+    results = pd.DataFrame()
     
-    if sess.analyses is not None:
-        # Search through session for analyses that match regexp_anz. If there aren't
-        # any, return None and/or a warning message.
-        # Is fw.resolve faster than fw.lookup or fw.get?
-        anzlist = [a.id for a in sess.analyses if re.match(regexp_anz, a.label)]
+    if zipfile is None:
+        sesspath = '{}/{}/{}/{}'.format(group, project, str(subject), str(session))
+        sess = fw.get(fw.lookup(sesspath).id)
+    
+        if sess.analyses is not None:
+            # Search through session for analyses that match regexp_anz. If there aren't
+            # any, return None and/or a warning message.
+            # Is fw.resolve faster than fw.lookup or fw.get?
+            anzlist = [a.id for a in sess.analyses if re.match(regexp_anz, a.label)]
         
-        if len(anzlist) > 0:
-        # For each matching analysis, search by regexp_member through attached files.
-            for anz in anzlist:
-                anz = fw.get(anz)
-                flist = [f.name for f in anz.files if re.match(regexp_zip, 
-                    f.name) and 'zip' in f.name]
-                if len(flist) > 0:
-                    for f in flist:
-                        zip_info = anz.get_file_zip_info(f)
-                        member_matches = [m.path for m in zip_info.members if \
-                            re.match(regexp_member, m.path)]
-                        if len(member_matches) > 0:
-                            for zm in member_matches:
-#                                if os.path.isfile(outPath):
-#                                    outd = os.path.dirname(outPath)
-#                                    if not os.path.isdir(outd):
-#                                        pathlib.Path(outd).mkdir(parents=True,
-#                                            exist_ok=True)
-#                                    print(str(subject),str(session),zm)
-#                                    anz.download_file_zip_member(f, zm, outPath)
-#                                    results.append((anz.label,f,zm,outPath))
-#                                elif os.path.isdir(outPath):
-                                # If the output directory doesn't already
-                                # exist, create it.
-                                if not os.path.isdir(outPath):
-                                    pathlib.Path(outPath).mkdir(parents=True,
-                                        exist_ok=True)
-                                fpath = '{}/{}'.format(outPath,
-                                    os.path.basename(zm))
-                                print(str(subject),str(session),zm)
-                                anz.download_file_zip_member(f, zm, fpath)
-                                results.append((anz.label,f,zm,fpath))
-    if results:
-        results = pd.DataFrame(results, columns = ['analysis','file',
-            'zip_member','destination'])
-        return(results)
+            if len(anzlist) > 0:
+            # For each matching analysis, search by regexp_member through attached files.
+                for anz in anzlist:
+                    anz = fw.get(anz)
+                    flist = [f for f in anz.files if re.match(regexp_zip, 
+                        f.name) and 'zip' in f.name]
+                    if len(flist) > 0:
+                        for zipfile in flist:
+                            search_output = file_gopher(zipfile, regexp_member, download, outPath)
+                            if search_output is not None:
+                                pd.concat([results, search_output], axis = 0)
     else:
-        return(None)
+        search_output = file_gopher(zipfile, regexp_member, download, outPath)
+        if search_output is not None:
+            results = pd.concat([results, search_output], axis = 0)
+    return(results)
 
+def file_gopher(zipFile = None, regexp_zip_member = ".*nii.gz$", download = False, outPath = "."):
+    zip_info = zipFile.get_zip_info()
+    member_matches = [zm.path for zm in zip_info.members if \
+        re.match(regexp_zip_member, zm.path)]
+    outList = []
+    output_df = None
+    if len(member_matches) > 0:
+        output_df = pd.DataFrame()
+        for zm in member_matches:
+            # If the output directory doesn't already
+            # exist, create it.
+            if download:
+                if not os.path.isdir(outPath):
+                    pathlib.Path(outPath).mkdir(parents=True,
+                        exist_ok=True)
+                fpath = '{}/{}'.format(outPath,os.path.basename(zm))
+                zipFile.download_zip_member(zm, fpath)
+            else:
+                fpath = None
+            tmp = (zipFile.name, zm, fpath)
+            outList.append(tmp)
+    output_df = pd.DataFrame(outList, columns = ['ZipFile','ZipMember','OutputFile'])
+    return(output_df)
 
 def fix_job_id(id):
     if type(id) is str:
