@@ -68,6 +68,43 @@ def get_latest_fmriprep(session, stateType = ['complete'], outputType = 'analysi
     else:
         return None
 
+def get_latest_analysis(session, matchString = 'fmriprep', stateType = ['complete'], outputType = 'analysis'):
+    '''
+    Finds the latest available job from a particular gear (which user indicates by matchString) in a session.
+    Based on Azeez Adebimpe's code.
+    '''
+        
+    if session.analyses:
+        
+        timezone = pytz.timezone("UTC")
+        # Just need an arbitrary start date for searching for analyses.
+        # Since we adopted Flywheel in 2019-2020, 1/1/2018 will do.
+        init_date = datetime.datetime(2018, 1, 1)
+        latest_date = timezone.localize(init_date)
+        
+        latest_run = None
+        
+        for i in session.analyses:
+            gear_name = i.gear_info['name']
+            state = i.job.state
+            date = i.created
+            if matchString in gear_name and date > latest_date and state in stateType:
+                latest_date = date
+                latest_run = i
+        
+        if latest_run is not None:
+            if outputType == 'analysis':
+                return(latest_run)
+            elif outputType == 'job':
+                return(latest_run.job)
+            elif outputType == 'file':
+                zipFile = [x for x in latest_run.files if ('zip' in x.name and not 'html' in x.name)].pop()
+                return(zipFile)
+        else:
+            return None
+        
+    else:
+        return None
 
 def find_modality_files(projectPath, modality):
     ''' Function for finding all of the files of a given modality (e.g., "bold")
@@ -345,8 +382,7 @@ def run_xcp(projectLabel, subjectLabel, sessionLabel, fmriprep = None, group = '
         myconfig = {
             'analysis_type': 'fc',
             'session': sessionLabel,
-            'space': 'T1w',
-            'task_name': 'rest'
+            'space': 'T1w'
         }
         
         myinput = {
