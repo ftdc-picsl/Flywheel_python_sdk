@@ -796,6 +796,8 @@ def infotodict(seqinfo):
             info[fm_mag6].append(s.series_id)
         elif "axial mb rsfmri (eyes open)" in protocol:
             info[bold_mb].append(s.series_id)
+        elif "axial_mb_rsfmri_(eyes_open)" in protocol:
+            info[bold_mb].append(s.series_id)
         elif "resting_bold_124" in protocol:
             info[rest_bold].append(s.series_id)
         elif "long_rsfmri_p-a" in protocol and 'sbref' in s.series_description.lower():
