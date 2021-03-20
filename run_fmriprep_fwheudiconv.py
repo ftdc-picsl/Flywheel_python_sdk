@@ -1,3 +1,14 @@
+import flywheel
+import pandas as pd
+import numpy as np
+import datetime
+import pytz
+import re
+import os
+import pathlib
+
+fw = flywheel.Client()
+
 def run_fmriprep(subjectLabel, sessionLabel, group = 'pennftdcenter', projectLabel = 'HUP6', ignore = '', t1_file = None):
     projectPath = '{}/{}'.format(group, projectLabel)
     proj = fw.lookup(projectPath)
