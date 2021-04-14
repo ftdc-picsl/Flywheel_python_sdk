@@ -9,6 +9,56 @@ import pathlib
 
 fw = flywheel.Client()
 
+def get_bids_nifti(acq):
+    bids_niftis = [f for f in acq.files if ('info' in f.keys() and 'BIDS' in f.info.keys() and "nii" in f.name)]
+    if len(bids_niftis) > 0:
+        return(bids_niftis.pop())
+    else:
+        return(None)
+
+def get_t1_file(sess):
+    '''
+        Function to pick the most desirable T1 file out of several in a session.
+    '''
+    #is_t1 = [any(['T1' in f.classification['Measurement'] for f in a.files \
+    #    if 'Measurement' in f.classification.keys()]) for a in sess.acquisitions()]
+    #t1_acq = [a for (a, v) in zip(sess.acquisitions(), is_t1) if v]
+    
+    t1_acq = []
+    acqlist = sess.acquisitions()
+    for acq in acqlist:
+        if any(['T1' in f.classification['Measurement'] for f in acq.files \
+            if 'Measurement' in f.classification.keys()]):
+                t1_acq.append(acq)
+    
+    t1_file = None
+    
+    for acq in t1_acq:
+        lab = acq.label.lower()
+        if ("vnav" in lab) and ("moco" in lab) and ("rms" in lab) and not ("nd" in lab):
+            t1_file = get_bids_nifti(acq)
+            return(t1_file)
+    
+    for acq in t1_acq:
+        lab = acq.label.lower()
+        if ("vnav" in lab) and ("rms" in lab) and not ("nd" in lab):
+            t1_file = get_bids_nifti(acq)
+            return(t1_file)
+    
+    for acq in t1_acq:
+        lab = acq.label.lower()
+        if ("ax" in lab) and ("mprage" in lab):
+            t1_file = get_bids_nifti(acq)
+            return(t1_file)
+    
+    for acq in t1_acq:
+        lab = acq.label.lower()
+        if ("sag" in lab) and ("mprage" in lab):
+            t1_file = get_bids_nifti(acq)
+            return(t1_file)
+    
+    return(t1_file)
+
 def run_fmriprep(subjectLabel, sessionLabel, group = 'pennftdcenter', projectLabel = 'HUP6', ignore = '', t1_file = None):
     projectPath = '{}/{}'.format(group, projectLabel)
     proj = fw.lookup(projectPath)
@@ -25,11 +75,7 @@ def run_fmriprep(subjectLabel, sessionLabel, group = 'pennftdcenter', projectLab
     
     # Find the T1 file.
     if t1_file is None:
-        is_t1 = [any(['T1' in f.classification['Measurement'] for f in a.files \
-            if 'Measurement' in f.classification.keys()]) for a in sess.acquisitions()]
-        t1_acq = [a for (a, v) in zip(sess.acquisitions(), is_t1) if v]
-        t1_acq = t1_acq.pop()
-        t1_file = [f for f in t1_acq.files if ('info' in f.keys() and 'BIDS' in f.info.keys())].pop()
+        t1_file = get_t1_file(sess)
     
     # If there's more than one T1w image, do what?
     inputs = {
