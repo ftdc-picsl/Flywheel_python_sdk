@@ -515,7 +515,7 @@ def infotodict(seqinfo):
         series_name = series_key[0]
         s = series_name.split("_")
         nfields = len(s)
-        s.insert(nfields-1, "run" + str(runindex))
+        s.insert(nfields-1, "run-" + str(runindex))
         new_name = "_".join(s)
         return((new_name, series_key[1], series_key[2]))
 
