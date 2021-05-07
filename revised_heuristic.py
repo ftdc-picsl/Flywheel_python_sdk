@@ -216,7 +216,10 @@ def infotodict(seqinfo):
     
     for s in seqinfo:
         protocol = s.protocol_name.lower()
-        mydatetime = datetime.datetime.strptime(s.date, '%Y-%m-%dT%H:%M:%S.%f')
+        if s.date is not None:
+            mydatetime = datetime.datetime.strptime(s.date, '%Y-%m-%dT%H:%M:%S.%f')
+        else:
+            mydatetime = None
         if "localizer" in protocol:
             info[locz].append(s.series_id)
         elif 'aahead_scout' in protocol:
@@ -237,6 +240,10 @@ def infotodict(seqinfo):
             info[t1w_gradwarp].append(s.series_id)
         elif "sag_t1_mprage" in protocol:
             info[t1w_sag].append(s.series_id)
+        elif "sag mprage" in protocol:
+            info[t1w_gradwarp].append(s.series_id)
+        elif "sag_mprage" in protocol:
+            info[t1w_gradwarp].append(s.series_id)
         elif "t1w" in protocol and 'vnav' not in protocol:
             info[t1w].append(s.series_id)
         elif "t1_mpr_ax_mprage" in protocol and "PRIMARY" in s.image_type:
@@ -506,8 +513,10 @@ def infotodict(seqinfo):
 
     # Get timestamp info to use as a sort key.
     def get_date(series_info):
-        return(datetime.datetime.strptime(series_info.date, '%Y-%m-%dT%H:%M:%S.%f'))
-
+        try:
+            return(datetime.datetime.strptime(series_info.date, '%Y-%m-%dT%H:%M:%S.%f'))
+        except:
+            return(None)
 
     # Before returning the info dictionary, 1) get rid of empty dict entries; and
     # 2) for entries that have more than one series, differentiate them by run-{index}.
