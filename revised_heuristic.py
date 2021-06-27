@@ -141,6 +141,7 @@ dti_52dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-
 dti_55dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-55dir_dwi')
 dti_62dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-62dir_dwi')
 dwi_abcd = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-96dir_dwi')
+dwi_114dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-114dir_dwi')
 dwi_117dir = create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-117dir_dwi')
 noddi_b2000 =  create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-NODDIB2000_dwi')
 noddi_b700 =  create_key('sub-{subject}/{session}/dwi/sub-{subject}_{session}_acq-NODDIB700_dwi')
@@ -204,6 +205,7 @@ def infotodict(seqinfo):
         dti_52dir: [],
         dti_55dir: [],
         dti_62dir: [],
+        dwi_114dir: [],
         dwi_117dir: [], 
         dti_30dir_ap: [], dti_30dir_pa: [],
         dwi_abcd: [],
@@ -411,7 +413,9 @@ def infotodict(seqinfo):
             info[dti_34dir].append(s.series_id)
         elif 'dti_34_dir' in protocol:
             info[dti_34dir].append(s.series_id)
-        elif protocol == 'axial_dti' and 'ORIGINAL' in s.series_description:
+        elif protocol == 'axial_dti' and 'ORIGINAL' in s.image_type:
+            info[dti_52dir].append(s.series_id)
+        elif protocol == 'axial dti' and 'ORIGINAL' in s.image_type:
             info[dti_52dir].append(s.series_id)
         elif 'dti_2x32' in protocol:
             info[dti_32dir].append(s.series_id)
@@ -421,6 +425,8 @@ def infotodict(seqinfo):
             info[dti_55dir].append(s.series_id)
         elif protocol == 'abcd_dmri':
             info[dwi_abcd].append(s.series_id)
+        elif protocol == 'axial_mb_dti':
+            info[dwi_114dir].append(s.series_id)
         elif protocol == 'multishell_117dir':
             info[dwi_117dir].append(s.series_id)
         elif 'noddi_b_2000' in protocol:
@@ -651,13 +657,15 @@ IntendedFor = {
         '{session}/func/{subject}_{session}_task-rest_run-2_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_run-3_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_run-4_bold.nii.gz',
-        '{session}/func/sub-{subject}_{session}_task-rest_acq-MB_bold.nii.gz'],
+        '{session}/func/sub-{subject}_{session}_task-rest_acq-MB_bold.nii.gz',
+        '{session}/dwi/sub-{subject}_{session}_acq-114dir_dwi'],
     fm_mag4: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_run-1_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_run-2_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_run-3_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_run-4_bold.nii.gz',
-        '{session}/func/sub-{subject}_{session}_task-rest_acq-MB_bold.nii.gz'],
+        '{session}/func/sub-{subject}_{session}_task-rest_acq-MB_bold.nii.gz',
+        '{session}/dwi/sub-{subject}_{session}_acq-114dir_dwi'],
 
     fm_phasediff5: [ '{session}/func/{subject}_{session}_task-rest_bold.nii.gz',
         '{session}/func/{subject}_{session}_task-rest_run-1_bold.nii.gz',
